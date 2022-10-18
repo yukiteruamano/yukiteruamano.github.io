@@ -18,7 +18,7 @@ Para usar el simulador todo lo que debes hacer es clonar o descargar el código 
 
 Para descargar el simuldor tienes dos formas:
 
-- Descargando el [zip](https://gitlab.com/YukiteruAmano/simulador-blockchain/-/archive/master/simulador-blockchain-master.zip) con el contenido del simulador. 
+- Descargando el [zip](https://github.com/yukiteruamano/yukiteruamano.github.io/archive/refs/heads/master.zip) con el contenido del simulador. 
 - Realizando un clone del repositorio usando GIT.
 
 ## Iniciando el simulador
