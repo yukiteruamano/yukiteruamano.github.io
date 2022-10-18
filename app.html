@@ -1,0 +1,31 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#!/" class="navbar-brand">Simulador Blockchain</a>
+        </div>
+
+        <div id="navbar" class="collapse navbar-collapse">
+            <form class="navbar-form navbar-right">
+                <div class="form-group" ng-if="$root.expertMode">
+                    <label class="navbar-text" for="difficulty">Dificultad de bloque:</label>
+                    <select id="difficulty"
+                            ng-model="$root.difficulty"
+                            ng-options="(value + ' (' + $root.difficultyPrefix(value) + ')') for value in [2,4,6,8,10]"
+                            ng-change="$root.$broadcast('difficulty-change');"
+                            class="form-control">
+                    </select>
+                </div>
+                <button type="button"
+                        class="btn btn-default"
+                        ng-if="!$root.expertMode"
+                        ng-click="$root.expertMode = true;">
+                    Activar Modo Experto
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div ng-class="$root.$route.current.containerClass" ng-view>
+
+</div>

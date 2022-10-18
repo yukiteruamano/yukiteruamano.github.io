@@ -1,0 +1,57 @@
+<h1>Función Hash SHA-256</h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a ng-click="vm.showExplanation = !vm.showExplanation">Explicación</a>
+        </h4>
+    </div>
+    <div class="panel-collapse collapse" ng-class="{in: vm.showExplanation}">
+        <div class="panel-body">
+            <p>
+                Una <a href="https://academy.bit2me.com/que-es-hash/">función hash</a>, no es más que una función criptográfica
+                que nos permite tomar una determinada información y calcular una cadena alfanúmerica unica, irrepetible y de tamaño fijo
+                que representa los datos ingresados en dicha función. Básicamente, es una función que nos permite tomar grandes cantidades 
+                de información y transformarlas en un dato mucho más pequeño, manejable y verificable en todo momento, permitiendonos verificar el mismo sin mayores problemas. 
+            </p>
+
+            <p>
+                Al ser del tipo <strong>"deterministas"</strong>, significa que para una entrada de datos dada, siempre obtendremos el mismo hash, sin importar
+                el equipo computacional usado. Existen muchos tipos de funciones hash, pero la más usada en criptomonedas es el hash SHA-256, el cual es un estándar de la industria 
+                informática y el usado por Bitcoin para sus operaciones. 
+            </p>
+
+            <strong>Ejemplos</strong></br>
+            <p>
+                Si escribes "¡Hola mundo!", podrás ver el hash <strong>SHA-256: be95feded82029acd290e2f9bf3e0dd8e21922c9ce045120ed4e0cff0ae69063.</strong>
+                No importa, cuantas veces lo escriba, recibirás siempre el mismo hash por los mismos datos. <strong>¡Pruebalo!</strong>
+            </p>
+            
+        </div>
+    </div>
+</div>
+
+<div class="well">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="data" class="col-sm-2 control-label">Entrada:</label>
+            <div class="col-sm-10">
+                <textarea id="data"
+                          rows="10"
+                          ng-model="vm.data"
+                          ng-change="vm.hash = $root.sha256(vm.data)"
+                          class="form-control">
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="hash" class="col-sm-2 control-label">Hash SHA-256:</label>
+            <div class="col-sm-10">
+                <input id="hash"
+                       ng-readonly="true"
+                       ng-model="vm.hash"
+                       class="form-control">
+            </div>
+        </div>
+    </form>
+</div>

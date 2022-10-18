@@ -1,0 +1,41 @@
+<h1>Blockchain Distribuida</h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a ng-click="vm.showExplanation = !vm.showExplanation">Explicación</a>
+        </h4>
+    </div>
+    <div class="panel-collapse collapse" ng-class="{in: vm.showExplanation}">
+        <div class="panel-body">
+            
+            <p>El funcionamiento de una blockchain se asienta sobre la descentralización o distribución de sus nodos y la información de la misma. 
+                La idea básica es que cada nodo tiene su propia copia completa (o parcial) de todos los datos de la red, de manera que pueda verificar cualquier operación de forma autonóma en cualquier momento.
+                
+                De esta forma, la red mantiene la coherencia e integridad de los datos en todo momento, a la vez que garantiza que los datos estarán disponibles a cualquiera que los requiera en todo momento
+            </p>
+
+            <h3>Links:</h3>
+            <ul>
+                <li><a href="https://academy.bit2me.com/tipos-redes-criptomonedas/">Bit2Me Academy - Redes de criptomonedas ¿Qué tipos existen?</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-10 ng-scope" ng-repeat="peer in vm.peers">
+    <h3>{{peer.name}}
+        <peer-info ng-if="$root.expertMode" peers="vm.peers" peer-index="$index"></peer-info>
+    </h3>
+    <div class="row row-horizon">
+        <div class="col-md-10 ng-scope" ng-repeat="block in peer.blocks">
+            <block number="block.number"
+                   nonce="block.nonce"
+                   data="block.data"
+                   hash="block.hash"
+                   valid="block.valid"
+                   prev="!block.prev ? peer.blocks[$index-1].hash : block.prev">
+            </block>
+        </div>
+    </div>
+</div>

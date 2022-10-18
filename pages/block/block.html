@@ -1,0 +1,58 @@
+<h1>Bloque</h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a ng-click="vm.showExplanation = !vm.showExplanation">Explicación</a>
+        </h4>
+    </div>
+    <div class="panel-collapse collapse" ng-class="{in: vm.showExplanation}">
+        <div class="panel-body">
+            Un bloque es la unidad donde se ordenan los datos dentro de una blockchain.<br/><br/>
+            En su interior podemos encontrarnos con la siguiente información:
+            <ul>
+                <li>
+                    <strong>Número de bloque:</strong> Este dato nos indica el número del bloque dentro de la cadena de bloques o blockchain.
+                    Generalmente es un número entero que empieza por el número 0 y que va incrementandosé con cada nuevo bloque creado. 
+                    Estos bloques son generados por los mineros (en caso de cadenas Proof of Work - PoW) o los validadores (en el caso de cadena PoS, DPoS o PoA).
+                </li>
+                <li>
+                    <strong>Nonce:</strong> Este dato es un número aleatorio decidido por la red y que se utiliza en el momento de generar o validar el bloque. 
+                    Generalmente los mineros toman este número realizan las operaciones criptograficas pertinentes con el fin de encontrar un hash acorde a las 
+                    reglas de generacioón para el bloque actual. 
+                </li>
+                <li><strong>Datos:</strong> En esta secicón se almacenan los datos del bloque. En una blockchain como Bitcoin, esta sección contiene todas y cada una 
+                    de las transacciones que están siendo validadas con este bloque. Sin embargo, esta sección puede tener cualquier tipo de información que se desee. </li>
+                <li><strong>Hash de bloque anterior:</strong> Un dato importante dentro de todo bloque es el hash del bloque anterior. Este hash es usado para crear un enlace
+                    entre el bloque anterior y el nuevo, sirviendo de entropía para la generación del hash del nuevo bloque que se construye. Esto, es lo que permite que, 
+                    si el hash de un bloque anterior varia, entonces el resto de bloques subsiguientes queda invalidado (porque el resultado final de los hashses subsiguientes cambia).
+                </li>
+                <li>
+                    <strong>Hash de bloque:</strong> Todos los datos detro del bloque y las reglas de consenso de la red, son usados como entropía para generar este dato. 
+                    El resultado es una cadena alfanúmerica única que identifica al bloque de forma única e irrepetible, marcando la historia del bloque y su generación. 
+                    <pre>CryptoJS.SHA256([blockNumber, nonce, data, prev].join(''))</pre>
+                </li>
+            </ul>
+            
+            <p>Las reglas de consenso de cada blockchain es distinta, pero generalmente se pide a los mineros que generen un hash con una determinada forma. Por ejemplo, en Bitcoin
+            se pide que los hashses tengan una determinada cantidad de "0" al principio de cada hash. Dicho así, parece una tarea sencilla, pero la realidad es que incluso para 
+            las computadorass más potentes esto es una tarea titanica. </p>
+            
+            <p>Mientras más 0 se requieran al principio del hash, más dificil lograrlo, dando origen al concepto de "Dificultad de minería".
+                Además, la realización de toda esta tarea es lo que se conoce como <strong>minería</strong>, y tiene tres objetivos básicos que son: 
+                mantener la seguridad de la red, evitar el spam y generar nuevas monedas.</p>
+
+            <h3>Links:</h3>
+            <ul>
+                <li><a href="https://academy.bit2me.com/que-es-un-bloque-dentro-de-la-blockchain/">Bit2Me Academy - ¿Qué es un bloque en blockhain?</a></li>
+                <li><a href="https://academy.bit2me.com/mineria-bitcoin-como-se-crea-un-bloque/">Bit2Me Academy - Minería Bitcoin ¿Cómo se crea un bloque?</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<block number="vm.block.number"
+       nonce="vm.block.nonce"
+       prev="vm.block.prev"
+       data="vm.block.data">
+</block>

@@ -1,0 +1,35 @@
+<h1>Blockchain
+    <chain-info ng-if="$root.expertMode" blocks="vm.blocks"></chain-info>
+</h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a ng-click="vm.showExplanation = !vm.showExplanation">Explicación</a>
+        </h4>
+    </div>
+    <div class="panel-collapse collapse" ng-class="{in: vm.showExplanation}">
+        <div class="panel-body">
+            <p>Una blockchain no es más que la concatenación de varios bloques de datos generados por una red P2P.<br/>
+            Cada vez que se crea un bloque este se enlaza con el anterior y se agrega a la totalidad de datos de la blockchain. 
+            Así, cuando el nuevo bloque comienza a generarse, se utiliza el hash del bloque anterior y se repite el proceso. </p>
+
+            <p>En caso de que altere un hash de estos bloques, la totalidad de bloques posteriores queda invalidada, ya que el hash de esos bloques cambiará.
+                Esta medida busca impedir que los datos puedan ser adulterados por algún actor malicioso y agrega una enorme capa de seguridad, ya que alterar un bloque,
+                significa alterar el hash de cada uno de los bloques posteriores, una tarea titánica y dificil de asumir debido a su enorme computacional y económico. 
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row row-horizon">
+    <div class="col-md-10" ng-repeat="block in vm.blocks">
+        <block number="block.number"
+               nonce="block.nonce"
+               data="block.data"
+               hash="block.hash"
+               valid="block.valid"
+               prev="!block.prev ? vm.blocks[$index-1].hash : block.prev">
+        </block>
+    </div>
+</div>

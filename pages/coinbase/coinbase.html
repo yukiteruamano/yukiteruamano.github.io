@@ -1,0 +1,37 @@
+<h1>Transacción Coinbase</h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a ng-click="vm.showExplanation = !vm.showExplanation">Explicación</a>
+        </h4>
+    </div>
+    <div class="panel-collapse collapse" ng-class="{in: vm.showExplanation}">
+        <div class="panel-body">
+            Una transacción coinbase, es una transacción especial creada por los mineros con el fin de permitirles generar y obtener la recompensa de un bloque de Bitcoin. 
+            Esto junto al cobro de las comisiones correspondientes a todas las transacciones que han sido incluidas en dicho bloque.
+            
+            <h3>Links:</h3>
+            <ul>
+                <li><a href="https://academy.bit2me.com/que-es-coinbase-transaccion/">Bit2Me Academy - ¿Qué es una transacción coinbase?</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div ng-repeat="peer in vm.peers">
+    <h3>{{peer.name}}
+        <peer-info ng-if="$root.expertMode" peers="vm.peers" peer-index="$index"></peer-info>
+    </h3>
+    <div class="row row-horizon">
+        <div class="col-md-10" ng-repeat="block in peer.blocks">
+            <block number="block.number"
+                   nonce="block.nonce"
+                   data="block.data"
+                   hash="block.hash"
+                   valid="block.valid"
+                   prev="!block.prev ? peer.blocks[$index-1].hash : block.prev">
+            </block>
+        </div>
+    </div>
+</div>

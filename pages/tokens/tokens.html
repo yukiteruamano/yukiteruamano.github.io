@@ -1,0 +1,40 @@
+<h1>Tokens</h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a ng-click="vm.showExplanation = !vm.showExplanation">Explicación</a>
+        </h4>
+    </div>
+    <div class="panel-collapse collapse" ng-class="{in: vm.showExplanation}">
+        <div class="panel-body">
+            <p>
+                Los tokens son objetos similares a las monedas pero estos carecen de valor de curso legal. 
+                Esto se debe a que los tokens son emitidos por una entidad privada para un determinado uso y en su elaboración normalmente se hace uso de materiales de escaso valor.
+
+                Los tokens son una de las creaciones más esenciales de la tecnología blockchain y de las criptomonedas, encerrando características únicas y abriendo las puertas para aplicaciones que aún estamos por descubrir.
+            </p>
+            <h3>Links:</h3>
+            <ul>
+                <li><a href="https://academy.bit2me.com/que-es-un-token">Bit2Me Academy - ¿Qué es un token?</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div ng-repeat="peer in vm.peers">
+    <h3>{{peer.name}}
+        <peer-info ng-if="$root.expertMode" peers="vm.peers" peer-index="$index"></peer-info>
+    </h3>
+    <div class="row row-horizon">
+        <div class="col-md-10" ng-repeat="block in peer.blocks">
+            <block number="block.number"
+                   nonce="block.nonce"
+                   data="block.data"
+                   hash="block.hash"
+                   valid="block.valid"
+                   prev="!block.prev ? peer.blocks[$index-1].hash : block.prev">
+            </block>
+        </div>
+    </div>
+</div>
