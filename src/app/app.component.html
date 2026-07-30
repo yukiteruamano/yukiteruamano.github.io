@@ -1,6 +1,5 @@
 <nav
-  class="navbar navbar-expand-lg fixed-top"
-  style="background: #02264a"
+  class="navbar navbar-expand-lg fixed-top navbar-primary"
   role="navigation"
   aria-label="Navegación principal"
 >
@@ -11,6 +10,13 @@
       aria-label="Simulador Blockchain — Ir al inicio"
       >Simulador Blockchain</a
     >
+    <button
+      class="dark-toggle ms-auto"
+      (click)="toggleTheme()"
+      [attr.aria-label]="darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+    >
+      {{ darkMode ? '☀️' : '🌙' }}
+    </button>
   </div>
 </nav>
 
@@ -18,9 +24,7 @@
   @if (blockchain.expertMode()) {
     <form class="d-flex justify-content-end gap-2 mb-3" aria-label="Configuración de minado">
       <div class="d-flex align-items-center gap-2">
-        <label class="text-white mb-0" style="font-size: 14px" for="difficulty-select"
-          >Dificultad:</label
-        >
+        <label class="mb-0" style="font-size: 14px" for="difficulty-select">Dificultad:</label>
         <select
           id="difficulty-select"
           class="form-select form-select-sm"
@@ -36,9 +40,7 @@
         </select>
       </div>
       <div class="d-flex align-items-center gap-2">
-        <label class="text-white mb-0" style="font-size: 14px" for="nbits-select"
-          >Target (nBits):</label
-        >
+        <label class="mb-0" style="font-size: 14px" for="nbits-select">Target (nBits):</label>
         <select
           id="nbits-select"
           class="form-select form-select-sm"
@@ -55,8 +57,7 @@
     </form>
   } @else {
     <button
-      class="btn btn-sm mb-3"
-      style="background: #ff6600; color: #fff"
+      class="btn btn-sm mb-3 btn-expert"
       (click)="blockchain.toggleExpertMode()"
       aria-label="Activar modo experto"
     >

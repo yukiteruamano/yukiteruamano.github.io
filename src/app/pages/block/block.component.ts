@@ -75,11 +75,11 @@ import { ZERO_HASH } from '@app/constants';
     </div>
 
     <div class="mb-3">
-      <button class="btn btn-sm" style="background: #02264a; color: #fff" (click)="generateKey()">
+      <button class="btn btn-sm btn-generate-key" (click)="generateKey()">
         Generar par de claves ECDSA
       </button>
       @if (keyPair) {
-        <div class="mt-2 p-2" style="background: #f5f5f5; font-family: monospace; font-size: 12px">
+        <div class="mt-2 p-2 keypair-display">
           <div><strong>Clave privada:</strong> {{ keyPair.privateKey.substring(0, 32) }}...</div>
           <div><strong>Clave pública:</strong> {{ keyPair.publicKey.substring(0, 32) }}...</div>
           <div><strong>Dirección P2PKH:</strong> {{ keyPair.address }}</div>

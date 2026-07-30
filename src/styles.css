@@ -1,5 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap");
 
+:root {
+  --color-primary: #02264a;
+  --color-accent: #ff6600;
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-text: #555555;
+  --color-text-heading: #5a4d45;
+  --color-text-muted: #888888;
+  --color-border: #dddddd;
+  --color-border-light: #e3e3e3;
+  --color-panel-bg: #f5f5f5;
+  --color-input-bg: #ffffff;
+  --color-input-text: #333333;
+  --color-selection-bg: #89cc2d;
+  --color-success-bg: rgba(147, 255, 75, 0.27);
+  --color-error-bg: rgba(238, 4, 30, 0.21);
+}
+
+[data-theme="dark"] {
+  --color-primary: #0f3460;
+  --color-accent: #ff8533;
+  --color-bg: #1a1a2e;
+  --color-bg-secondary: #16213e;
+  --color-text: #c0c0c0;
+  --color-text-heading: #d0d0d0;
+  --color-text-muted: #909090;
+  --color-border: #2a2a4a;
+  --color-border-light: #252545;
+  --color-panel-bg: #16213e;
+  --color-input-bg: #0a1628;
+  --color-input-text: #e0e0e0;
+  --color-selection-bg: #446611;
+  --color-success-bg: rgba(100, 200, 50, 0.18);
+  --color-error-bg: rgba(200, 20, 30, 0.22);
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -10,8 +46,12 @@ body {
   font-family: "Raleway", sans-serif;
   font-size: 16px;
   font-weight: 400;
-  color: #888;
+  color: var(--color-text);
+  background: var(--color-bg);
   line-height: 24px;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 
 body > app-root > .container {
@@ -24,12 +64,25 @@ pre,
 .form-control {
   font-family: monospace;
   font-size: 13px;
+  background-color: var(--color-input-bg);
+  color: var(--color-input-text);
+  border-color: var(--color-border);
+}
+
+.form-control:focus {
+  background-color: var(--color-input-bg);
+  color: var(--color-input-text);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 0.2rem rgba(255, 102, 0, 0.15);
 }
 
 .well {
-  background: #f5f5f5;
-  border: 1px solid #e3e3e3;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-light);
   border-radius: 4px;
+  transition:
+    background 0.3s,
+    border-color 0.3s;
 }
 
 .well-sm {
@@ -39,12 +92,12 @@ pre,
 
 .well-success {
   transition: background 0.6s;
-  background: rgba(147, 255, 75, 0.27) !important;
+  background: var(--color-success-bg) !important;
 }
 
 .well-error {
   transition: background 0.6s;
-  background: rgba(238, 4, 30, 0.21) !important;
+  background: var(--color-error-bg) !important;
 }
 
 strong {
@@ -54,7 +107,7 @@ strong {
 a,
 a:hover,
 a:focus {
-  color: #ff6600;
+  color: var(--color-accent);
   text-decoration: none;
   transition: all 0.6s;
   cursor: pointer;
@@ -65,15 +118,19 @@ h2 {
   margin-top: 10px;
   font-size: 36px;
   font-weight: 700;
-  color: #5a4d45;
+  color: var(--color-text-heading);
   line-height: 44px;
 }
 
 h3 {
   font-size: 22px;
   font-weight: 400;
-  color: #5a4d45;
+  color: var(--color-text-heading);
   line-height: 30px;
+}
+
+h4 {
+  color: var(--color-text-heading);
 }
 
 img {
@@ -81,7 +138,7 @@ img {
 }
 
 ::selection {
-  background: #89cc2d;
+  background: var(--color-selection-bg);
   color: #fff;
   text-shadow: none;
 }
@@ -104,15 +161,20 @@ img {
 }
 
 .panel {
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
   margin-bottom: 20px;
+  background: var(--color-bg);
+  transition:
+    border-color 0.3s,
+    background 0.3s;
 }
 
 .panel-heading {
   padding: 10px 15px;
-  border-bottom: 1px solid #ddd;
-  background: #f5f5f5;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-panel-bg);
+  transition: background 0.3s;
 }
 
 .panel-title {
@@ -123,6 +185,7 @@ img {
 .panel-body {
   padding: 15px;
   line-height: 24px;
+  color: var(--color-text);
 }
 
 .btn-primary:hover {
@@ -132,4 +195,79 @@ img {
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+select.form-select {
+  background-color: var(--color-input-bg);
+  color: var(--color-input-text);
+  border-color: var(--color-border);
+}
+
+.navbar-primary {
+  background: var(--color-primary);
+  transition: background 0.3s;
+}
+
+.btn-expert {
+  background: var(--color-accent);
+  color: #ffffff;
+  border: none;
+  transition: background 0.3s;
+}
+
+.btn-expert:hover {
+  opacity: 0.9;
+  color: #ffffff;
+}
+
+.keypair-display {
+  background: var(--color-bg-secondary);
+  font-family: monospace;
+  font-size: 12px;
+  transition: background 0.3s;
+}
+
+.btn-generate-key {
+  background: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  transition: background 0.3s;
+}
+
+.btn-generate-key:hover {
+  opacity: 0.9;
+  color: #ffffff;
+}
+
+.navbar-brand {
+  color: #ffffff !important;
+}
+
+table.table {
+  color: var(--color-text);
+}
+
+table.table-striped > tbody > tr:nth-of-type(odd) {
+  --bs-table-accent-bg: var(--color-bg-secondary);
+  color: var(--color-text);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dark-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.dark-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.7);
 }
