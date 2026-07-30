@@ -8,12 +8,20 @@ import { ZERO_HASH } from '@app/constants';
 
 const elliptic = new EC('secp256k1');
 
+const webCryptoAvailable = typeof crypto !== 'undefined' && !!crypto.subtle;
+
 function hexToBuffer(hex: string): Uint8Array {
   const bytes = new Uint8Array(hex.length / 2);
   for (let i = 0; i < bytes.length; i++) {
     bytes[i] = parseInt(hex.substring(i * 2, i * 2 + 2), 16);
   }
   return bytes;
+}
+
+function bufferToHex(buf: ArrayBuffer): string {
+  return Array.from(new Uint8Array(buf))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
 }
 
 @Injectable({ providedIn: 'root' })
@@ -24,6 +32,25 @@ export class CryptoService {
 
   sha256d(input: string): string {
     return CryptoJS.SHA256(CryptoJS.SHA256(input)).toString();
+  }
+
+  async sha256Async(input: string): Promise<string> {
+    if (webCryptoAvailable) {
+      const encoder = new TextEncoder();
+      const hash = await crypto.subtle.digest('SHA-256', encoder.encode(input));
+      return bufferToHex(hash);
+    }
+    return this.sha256(input);
+  }
+
+  async sha256dAsync(input: string): Promise<string> {
+    if (webCryptoAvailable) {
+      const encoder = new TextEncoder();
+      const first = await crypto.subtle.digest('SHA-256', encoder.encode(input));
+      const second = await crypto.subtle.digest('SHA-256', first);
+      return bufferToHex(second);
+    }
+    return this.sha256d(input);
   }
 
   hash160(data: Uint8Array): string {

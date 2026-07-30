@@ -1,4 +1,4 @@
-import type { OnInit } from '@angular/core';
+import type { OnInit, OnDestroy } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type { Block, BlockHeader, KeyPair } from '@models/block';
@@ -94,7 +94,7 @@ import { ZERO_HASH } from '@app/constants';
     ></block-component>
   `,
 })
-export class BlockPageComponent implements OnInit {
+export class BlockPageComponent implements OnInit, OnDestroy {
   private readonly blockchain = inject(BlockchainService);
   private readonly crypto = inject(CryptoService);
 
@@ -104,6 +104,10 @@ export class BlockPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initBlock();
+  }
+
+  ngOnDestroy(): void {
+    this.keyPair = null;
   }
 
   initBlock(): void {
