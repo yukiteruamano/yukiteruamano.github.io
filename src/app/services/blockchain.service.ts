@@ -1,6 +1,7 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import type { Block, BlockHeader, Transaction, TxIn, TxOut, UTXO, Peer } from '@models/block';
 import { ZERO_HASH, GENESIS_NBITS, COINBASE_OUTPUT_INDEX, COINBASE_SEQUENCE } from '@app/constants';
+/* eslint-disable @typescript-eslint/consistent-type-imports -- needed as Angular DI injection tokens */
 import { CryptoService } from './crypto.service';
 import { TargetService } from './target.service';
 import { MempoolService } from './mempool.service';
@@ -12,6 +13,16 @@ export class BlockchainService {
   readonly expertMode = signal(false);
   readonly difficulty = signal(4);
   readonly currentNBits = signal(GENESIS_NBITS);
+
+  readonly chainValid = computed(() => this.isChainValid(this.chain()));
+
+  readonly balancesMap = computed(() => {
+    const map = new Map<string, number>();
+    for (const utxo of this.utxoSet()) {
+      map.set(utxo.address, (map.get(utxo.address) || 0) + utxo.value);
+    }
+    return map as ReadonlyMap<string, number>;
+  });
 
   private idCounter = 0;
 
@@ -276,9 +287,7 @@ export class BlockchainService {
   }
 
   getBalance(address: string): number {
-    return this.utxoSet()
-      .filter((u) => u.address === address)
-      .reduce((sum, u) => sum + u.value, 0);
+    return this.balancesMap().get(address) || 0;
   }
 
   createPeer(

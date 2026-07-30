@@ -5,15 +5,15 @@
 </nav>
 
 <div class="container pt-5 mt-4">
-  @if (expertMode) {
+  @if (blockchain.expertMode()) {
     <form class="d-flex justify-content-end gap-2 mb-3">
       <div class="d-flex align-items-center gap-2">
         <label class="text-white mb-0" style="font-size: 14px">Dificultad:</label>
         <select
           class="form-select form-select-sm"
           style="width: auto"
-          [ngModel]="difficulty"
-          (ngModelChange)="onDifficultyChange($event)"
+          [ngModel]="blockchain.difficulty()"
+          (ngModelChange)="blockchain.setDifficulty($event)"
           [ngModelOptions]="{ standalone: true }"
         >
           @for (val of [2, 4, 6, 8, 10]; track val) {
@@ -39,7 +39,7 @@
     <button
       class="btn btn-sm mb-3"
       style="background: #ff6600; color: #fff"
-      (click)="toggleExpertMode()"
+      (click)="blockchain.toggleExpertMode()"
     >
       Activar Modo Experto
     </button>
