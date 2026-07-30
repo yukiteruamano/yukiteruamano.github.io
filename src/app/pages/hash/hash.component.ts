@@ -70,7 +70,7 @@ import { CryptoService } from '@services/crypto.service';
   `,
 })
 export class HashComponent {
-  cryptoService = inject(CryptoService);
+  readonly cryptoService = inject(CryptoService);
   data = '';
   hash = this.cryptoService.sha256('');
   showExplanation = false;

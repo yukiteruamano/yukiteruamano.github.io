@@ -6,6 +6,7 @@ import { CryptoService } from '@services/crypto.service';
 import { TargetService } from '@services/target.service';
 import { BlockComponent } from '@components/block/block.component';
 import { ChainInfoComponent } from '@components/chain-info/chain-info.component';
+import { ZERO_HASH } from '@app/constants';
 
 @Component({
   selector: 'app-blockchain-page',
@@ -60,16 +61,16 @@ import { ChainInfoComponent } from '@components/chain-info/chain-info.component'
   `,
 })
 export class BlockchainComponent implements OnInit {
-  blockchain = inject(BlockchainService);
-  private crypto = inject(CryptoService);
-  private targetService = inject(TargetService);
+  readonly blockchain = inject(BlockchainService);
+  private readonly crypto = inject(CryptoService);
+  private readonly targetService = inject(TargetService);
 
   blocks: Block[] = [];
   showExplanation = false;
 
   ngOnInit(): void {
     const genNonces = [23344, 15208, 24677, 48313, 45153];
-    let prevHash = '0000000000000000000000000000000000000000000000000000000000000000';
+    let prevHash = ZERO_HASH;
 
     this.blocks = genNonces.map((nonce, i) => {
       const header = {

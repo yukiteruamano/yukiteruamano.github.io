@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type { Block } from '@models/block';
-import { BlockHeader, Transaction } from '@models/block';
 import { CryptoService } from '@services/crypto.service';
 import { TargetService } from '@services/target.service';
 import { BlockchainService } from '@services/blockchain.service';
@@ -27,9 +26,9 @@ export class BlockComponent implements OnChanges {
   @Input() simpleMode = false;
   @Output() blockChanged = new EventEmitter<Block>();
 
-  private crypto = inject(CryptoService);
-  private targetService = inject(TargetService);
-  private blockchain = inject(BlockchainService);
+  private readonly crypto = inject(CryptoService);
+  private readonly targetService = inject(TargetService);
+  private readonly blockchain = inject(BlockchainService);
 
   dataString = '';
   showData = false;
@@ -98,7 +97,7 @@ export class BlockComponent implements OnChanges {
     try {
       const parsed = JSON.parse(value);
       this.block.transactions = parsed;
-    } catch (e) {
+    } catch {
       /* ignore parse errors */
     }
     this.updateBlock();

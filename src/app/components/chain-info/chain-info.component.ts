@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import type { Block } from '@models/block';
+import { GENESIS_NBITS } from '@app/constants';
 
 @Component({
   selector: 'chain-info',
@@ -21,7 +22,7 @@ export class ChainInfoComponent {
 
   get workAccumulated(): number {
     return this.blocks.reduce((sum, b) => {
-      const nBits = b.header?.nBits || 0x1d00ffff;
+      const nBits = b.header?.nBits || GENESIS_NBITS;
       const target = BigInt(
         '0x' +
           ((nBits & 0xffffff) * Math.pow(2, 8 * (((nBits >> 24) & 0xff) - 3)))

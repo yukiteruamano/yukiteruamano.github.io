@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import type { Block, BlockHeader, Transaction, TxIn, TxOut, UTXO, Peer } from '@models/block';
+import { ZERO_HASH, GENESIS_NBITS, COINBASE_OUTPUT_INDEX, COINBASE_SEQUENCE } from '@app/constants';
 import { CryptoService } from './crypto.service';
 import { TargetService } from './target.service';
 import { MempoolService } from './mempool.service';
@@ -10,14 +11,14 @@ export class BlockchainService {
   readonly utxoSet = signal<UTXO[]>([]);
   readonly expertMode = signal(false);
   readonly difficulty = signal(4);
-  readonly currentNBits = signal(0x1d00ffff);
+  readonly currentNBits = signal(GENESIS_NBITS);
 
   private idCounter = 0;
 
   constructor(
-    private crypto: CryptoService,
-    private targetService: TargetService,
-    private mempool: MempoolService,
+    private readonly crypto: CryptoService,
+    private readonly targetService: TargetService,
+    private readonly mempool: MempoolService,
   ) {}
 
   newId(): number {
@@ -49,7 +50,7 @@ export class BlockchainService {
   createGenesisBlock(): Block {
     const header: BlockHeader = {
       version: 1,
-      previousBlockHash: '0000000000000000000000000000000000000000000000000000000000000000',
+      previousBlockHash: ZERO_HASH,
       merkleRoot: this.crypto.sha256d(''),
       timestamp: Math.floor(Date.now() / 1000),
       nBits: this.currentNBits(),
@@ -113,10 +114,10 @@ export class BlockchainService {
 
   createCoinbaseTransaction(address: string, reward: number, blockHeight: number): Transaction {
     const txIn: TxIn = {
-      previousTxHash: '0000000000000000000000000000000000000000000000000000000000000000',
-      outputIndex: 0xffffffff,
+      previousTxHash: ZERO_HASH,
+      outputIndex: COINBASE_OUTPUT_INDEX,
       scriptSig: blockHeight.toString(16),
-      sequence: 0xffffffff,
+      sequence: COINBASE_SEQUENCE,
     };
 
     const txOut: TxOut = {
@@ -162,7 +163,7 @@ export class BlockchainService {
       previousTxHash: utxo.txid,
       outputIndex: utxo.outputIndex,
       scriptSig: '',
-      sequence: 0xffffffff,
+      sequence: COINBASE_SEQUENCE,
     }));
 
     const outputs: TxOut[] = [
@@ -282,13 +283,12 @@ export class BlockchainService {
 
   createPeer(
     name: string,
-    blocks: { number: number; nonce: number; data: any; prev?: string }[],
+    blocks: { number: number; nonce: number; data: Record<string, unknown>; prev?: string }[],
   ): Peer {
     const peerBlocks: Block[] = blocks.map((b) => {
       const header: BlockHeader = {
         version: 1,
-        previousBlockHash:
-          b.prev || '0000000000000000000000000000000000000000000000000000000000000000',
+        previousBlockHash: b.prev || ZERO_HASH,
         merkleRoot: this.crypto.sha256d(JSON.stringify(b.data)),
         timestamp: Math.floor(Date.now() / 1000),
         nBits: this.currentNBits(),

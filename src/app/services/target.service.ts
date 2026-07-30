@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import type { BlockHeader } from '@models/block';
-
-const GENESIS_NBITS = 0x1d00ffff;
+import { GENESIS_NBITS } from '@app/constants';
 
 @Injectable({ providedIn: 'root' })
 export class TargetService {
   readonly defaultNBits = GENESIS_NBITS;
-  readonly maxTarget = this.nBitsToTarget(0x1d00ffff);
+  readonly maxTarget = this.nBitsToTarget(GENESIS_NBITS);
 
   nBitsToTarget(nBits: number): bigint {
     const exponent = (nBits >> 24) & 0xff;
@@ -18,7 +17,6 @@ export class TargetService {
 
   targetToNBits(target: bigint): number {
     const hex = target.toString(16).padStart(64, '0');
-    const targetStr = hex.replace(/^0+/, '');
     const length = hex.length / 2;
     const exponent = length;
     const coefficientHex = hex.slice(0, 6);

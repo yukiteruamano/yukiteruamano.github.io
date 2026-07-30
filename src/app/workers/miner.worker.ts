@@ -1,13 +1,12 @@
 addEventListener('message', ({ data }) => {
-  const { version, previousBlockHash, merkleRoot, timestamp, nBits, hashFunctionName } = data;
-  const targetHex = data.targetHex;
+  const { version, previousBlockHash, merkleRoot, timestamp, nBits, targetHex } = data;
 
   importScripts('/assets/sha256-worker.js');
 
   const start = performance.now();
   const prefix = `${version}${previousBlockHash}${merkleRoot}${timestamp}${nBits}`;
   let nonce = 0;
-  let hash: string = '';
+  let hash = '';
   const target = BigInt('0x' + targetHex);
   let found = false;
 

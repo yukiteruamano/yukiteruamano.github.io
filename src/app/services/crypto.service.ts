@@ -4,14 +4,9 @@ import { ec as EC } from 'elliptic';
 import { sha256 as hjsSHA256, ripemd160 } from 'hash.js';
 import * as bs58 from 'bs58';
 import type { KeyPair } from '@models/block';
+import { ZERO_HASH } from '@app/constants';
 
 const elliptic = new EC('secp256k1');
-
-function bufferToHex(buf: Uint8Array): string {
-  return Array.from(buf)
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
 
 function hexToBuffer(hex: string): Uint8Array {
   const bytes = new Uint8Array(hex.length / 2);
@@ -88,7 +83,7 @@ export class CryptoService {
 
   computeMerkleRoot(txids: string[]): string {
     if (txids.length === 0) {
-      return '0000000000000000000000000000000000000000000000000000000000000000';
+      return ZERO_HASH;
     }
 
     let tree = [...txids];

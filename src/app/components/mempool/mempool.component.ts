@@ -11,7 +11,7 @@ import { MempoolService } from '@services/mempool.service';
   templateUrl: './mempool.component.html',
 })
 export class MempoolComponent {
-  private mempool = inject(MempoolService);
+  private readonly mempool = inject(MempoolService);
 
   @Output() selectForBlock = new EventEmitter<string[]>();
 

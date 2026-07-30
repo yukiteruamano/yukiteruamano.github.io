@@ -1,11 +1,11 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import type { Block, BlockHeader } from '@models/block';
+import type { Block, BlockHeader, KeyPair } from '@models/block';
 import { BlockchainService } from '@services/blockchain.service';
 import { CryptoService } from '@services/crypto.service';
 import { BlockComponent } from '@components/block/block.component';
-import type { KeyPair } from '@models/block';
+import { ZERO_HASH } from '@app/constants';
 
 @Component({
   selector: 'app-block-page',
@@ -95,8 +95,8 @@ import type { KeyPair } from '@models/block';
   `,
 })
 export class BlockPageComponent implements OnInit {
-  private blockchain = inject(BlockchainService);
-  private crypto = inject(CryptoService);
+  private readonly blockchain = inject(BlockchainService);
+  private readonly crypto = inject(CryptoService);
 
   block!: Block;
   keyPair: KeyPair | null = null;
@@ -109,7 +109,7 @@ export class BlockPageComponent implements OnInit {
   initBlock(): void {
     const header: BlockHeader = {
       version: 1,
-      previousBlockHash: '0000000000000000000000000000000000000000000000000000000000000000',
+      previousBlockHash: ZERO_HASH,
       merkleRoot: this.crypto.sha256d(''),
       timestamp: Math.floor(Date.now() / 1000),
       nBits: this.blockchain.currentNBits(),

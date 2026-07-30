@@ -43,7 +43,7 @@ import type { UTXO } from '@models/block';
   `,
 })
 export class UtxoSetComponent {
-  private blockchain = inject(BlockchainService);
+  private readonly blockchain = inject(BlockchainService);
 
   get utxos(): UTXO[] {
     return this.blockchain.utxoSet();

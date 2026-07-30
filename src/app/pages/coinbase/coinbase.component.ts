@@ -1,9 +1,10 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
-import type { Peer } from '@models/block';
+import type { Peer, Block } from '@models/block';
 import { BlockchainService } from '@services/blockchain.service';
 import { BlockComponent } from '@components/block/block.component';
 import { PeerInfoComponent } from '@components/peer-info/peer-info.component';
+import { ZERO_HASH } from '@app/constants';
 
 @Component({
   selector: 'app-coinbase',
@@ -70,7 +71,7 @@ import { PeerInfoComponent } from '@components/peer-info/peer-info.component';
   `,
 })
 export class CoinbaseComponent implements OnInit {
-  blockchain = inject(BlockchainService);
+  readonly blockchain = inject(BlockchainService);
 
   peers: Peer[] = [];
   showExplanation = false;
@@ -81,7 +82,7 @@ export class CoinbaseComponent implements OnInit {
         number: 1,
         nonce: 114530,
         data: { coinbase: { value: 100, to: 'Oli' }, txs: [] },
-        prev: '0000000000000000000000000000000000000000000000000000000000000000',
+        prev: ZERO_HASH,
       },
       {
         number: 2,
@@ -112,7 +113,7 @@ export class CoinbaseComponent implements OnInit {
     ];
   }
 
-  onBlockChanged(peerIdx: number, blockIdx: number, block: any): void {
+  onBlockChanged(peerIdx: number, blockIdx: number, block: Block): void {
     this.peers[peerIdx].blocks[blockIdx] = { ...block };
     for (let i = blockIdx + 1; i < this.peers[peerIdx].blocks.length; i++) {
       this.peers[peerIdx].blocks[i].header.previousBlockHash =

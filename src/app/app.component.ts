@@ -11,7 +11,7 @@ import { BlockchainService } from '@services/blockchain.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  blockchain = inject(BlockchainService);
+  readonly blockchain = inject(BlockchainService);
 
   get expertMode(): boolean {
     return this.blockchain.expertMode();
