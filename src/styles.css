@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap");
+
+html {
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #888;
+  line-height: 24px;
+}
+
+body > app-root > .container {
+  padding: 60px 15px 0;
+}
+
+input,
+textarea,
+pre,
+.form-control {
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.well {
+  background: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+}
+
+.well-sm {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.well-success {
+  transition: background 0.6s;
+  background: rgba(147, 255, 75, 0.27) !important;
+}
+
+.well-error {
+  transition: background 0.6s;
+  background: rgba(238, 4, 30, 0.21) !important;
+}
+
+strong {
+  font-weight: 700;
+}
+
+a,
+a:hover,
+a:focus {
+  color: #ff6600;
+  text-decoration: none;
+  transition: all 0.6s;
+  cursor: pointer;
+}
+
+h1,
+h2 {
+  margin-top: 10px;
+  font-size: 36px;
+  font-weight: 700;
+  color: #5a4d45;
+  line-height: 44px;
+}
+
+h3 {
+  font-size: 22px;
+  font-weight: 400;
+  color: #5a4d45;
+  line-height: 30px;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: #89cc2d;
+  color: #fff;
+  text-shadow: none;
+}
+
+.row-horizon {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+  padding-bottom: 15px;
+}
+
+.row-horizon > [class*="col-md-"] {
+  float: none;
+  display: inline-block;
+  vertical-align: top;
+  white-space: normal;
+  min-width: 380px;
+}
+
+.panel {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  background: #f5f5f5;
+}
+
+.panel-title {
+  font-size: 16px;
+  margin: 0;
+}
+
+.panel-body {
+  padding: 15px;
+  line-height: 24px;
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

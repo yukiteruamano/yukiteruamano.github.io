@@ -1,0 +1,7 @@
+/dist
+/node_modules
+/.angular
+/tmp
+/docs
+/coverage
+*.lock

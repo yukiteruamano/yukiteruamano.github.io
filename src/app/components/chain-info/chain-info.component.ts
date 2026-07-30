@@ -1,0 +1,34 @@
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import type { Block } from '@models/block';
+
+@Component({
+  selector: 'chain-info',
+  standalone: true,
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    (height: {{ blocks.length }} blocks, valid: {{ allValid }}, accumulated work:
+    {{ workAccumulated | number }})
+  `,
+})
+export class ChainInfoComponent {
+  @Input() blocks: Block[] = [];
+
+  get allValid(): boolean {
+    return this.blocks.length > 0 && this.blocks.every((b) => b.valid);
+  }
+
+  get workAccumulated(): number {
+    return this.blocks.reduce((sum, b) => {
+      const nBits = b.header?.nBits || 0x1d00ffff;
+      const target = BigInt(
+        '0x' +
+          ((nBits & 0xffffff) * Math.pow(2, 8 * (((nBits >> 24) & 0xff) - 3)))
+            .toString(16)
+            .padStart(64, '0'),
+      );
+      return sum + Number(BigInt(2) ** BigInt(256)) / (Number(target) || 1);
+    }, 0);
+  }
+}
