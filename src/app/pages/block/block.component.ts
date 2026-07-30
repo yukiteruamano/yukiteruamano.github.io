@@ -85,7 +85,7 @@ import { ZERO_HASH } from '@app/constants';
         Generar par de claves ECDSA
       </button>
       @if (keyPair) {
-        <div class="mt-2 p-2 keypair-display">
+        <div class="mt-2 p-3 keypair-display">
           <div><strong>Clave privada:</strong> {{ keyPair.privateKey.substring(0, 32) }}...</div>
           <div><strong>Clave pública:</strong> {{ keyPair.publicKey.substring(0, 32) }}...</div>
           <div><strong>Dirección P2PKH:</strong> {{ keyPair.address }}</div>

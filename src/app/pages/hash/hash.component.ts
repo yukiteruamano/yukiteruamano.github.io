@@ -60,7 +60,7 @@ import { CryptoService } from '@services/crypto.service';
         <input class="form-control" [value]="hash" readonly />
       </div>
       @if (data) {
-        <div class="mb-3">
+        <div>
           <label class="form-label fw-bold">Double SHA-256 (SHA256d):</label>
           <input class="form-control" [value]="cryptoService.sha256d(data)" readonly />
         </div>

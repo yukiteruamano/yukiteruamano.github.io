@@ -92,7 +92,7 @@
       </div>
       <div class="col-sm-10">
         @for (tx of block.transactions; track tx.txid; let i = $index) {
-          <div class="input-group mb-1">
+          <div class="input-group mb-2">
             <span class="input-group-text">{{ tx.isCoinbase ? 'CB' : 'Tx' }}</span>
             <input
               [value]="tx.txid.substring(0, 14) + '...'"

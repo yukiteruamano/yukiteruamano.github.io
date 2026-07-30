@@ -71,7 +71,7 @@ body {
 }
 
 body > app-root > .container {
-  padding: 48px 15px 0;
+  padding: 48px 15px 40px;
 }
 
 input,
@@ -115,6 +115,8 @@ code {
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border-light);
   border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 20px;
   transition:
     background 0.3s,
     border-color 0.3s;
@@ -123,6 +125,10 @@ code {
 .well-sm {
   font-size: 14px;
   font-weight: 300;
+}
+
+.form-group {
+  margin-bottom: 1rem;
 }
 
 .well-success {
@@ -151,6 +157,7 @@ a:focus {
 h1,
 h2 {
   margin-top: 10px;
+  margin-bottom: 24px;
   font-size: 36px;
   font-weight: 700;
   color: var(--color-text-heading);
@@ -162,6 +169,7 @@ h3 {
   font-weight: 400;
   color: var(--color-text-heading);
   line-height: 30px;
+  margin: 30px 0 12px;
 }
 
 h4 {
@@ -194,6 +202,8 @@ img {
   vertical-align: top;
   white-space: normal;
   min-width: 380px;
+  margin-right: 20px;
+  margin-bottom: 12px;
 }
 
 .panel {
@@ -219,7 +229,7 @@ img {
 }
 
 .panel-body {
-  padding: 15px;
+  padding: 20px;
   line-height: 24px;
   color: var(--color-text);
 }

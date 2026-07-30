@@ -50,7 +50,7 @@ import { ZERO_HASH } from '@app/constants';
     </div>
 
     @for (peer of peers; track peer.name; let i = $index) {
-      <div>
+      <div class="mb-5">
         <h3>
           {{ peer.name }}
           @if (blockchain.expertMode()) {
