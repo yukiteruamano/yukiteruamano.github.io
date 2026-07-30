@@ -5,12 +5,13 @@ import type { Block, BlockHeader, KeyPair } from '@models/block';
 import { BlockchainService } from '@services/blockchain.service';
 import { CryptoService } from '@services/crypto.service';
 import { BlockComponent } from '@components/block/block.component';
+import { MerkleTreeComponent } from '@components/merkle-tree/merkle-tree.component';
 import { ZERO_HASH } from '@app/constants';
 
 @Component({
   selector: 'app-block-page',
   standalone: true,
-  imports: [FormsModule, BlockComponent],
+  imports: [FormsModule, BlockComponent, MerkleTreeComponent],
   template: `
     <h1>Bloque</h1>
 
@@ -92,6 +93,10 @@ import { ZERO_HASH } from '@app/constants';
       [showMineButton]="true"
       (blockChanged)="onBlockChanged($event)"
     ></block-component>
+
+    @if (txids.length > 0) {
+      <merkle-tree [txids]="txids"></merkle-tree>
+    }
   `,
 })
 export class BlockPageComponent implements OnInit, OnDestroy {
@@ -101,6 +106,10 @@ export class BlockPageComponent implements OnInit, OnDestroy {
   block!: Block;
   keyPair: KeyPair | null = null;
   showExplanation = false;
+
+  get txids(): string[] {
+    return this.block?.transactions?.map((t) => t.txid) || [];
+  }
 
   ngOnInit(): void {
     this.initBlock();
