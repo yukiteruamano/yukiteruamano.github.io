@@ -16,17 +16,25 @@ export class TargetService {
   }
 
   targetToNBits(target: bigint): number {
-    const hex = target.toString(16).padStart(64, '0');
-    const length = hex.length / 2;
-    const exponent = length;
-    const coefficientHex = hex.slice(0, 6);
-    const coefficient = parseInt(coefficientHex || '0', 16);
+    if (target === BigInt(0)) return 0;
 
-    if (coefficient > 0x7fffff) {
-      return ((exponent + 1) << 24) | (coefficient >> 8);
+    const hex = target.toString(16);
+    const nSize = Math.ceil(hex.length / 2);
+
+    let mantissa: number;
+    if (nSize <= 3) {
+      mantissa = Number(target << BigInt(8 * (3 - nSize)));
+    } else {
+      const shift = BigInt(8 * (nSize - 3));
+      mantissa = Number(target >> shift);
     }
 
-    return (exponent << 24) | coefficient;
+    if (mantissa > 0x7fffff) {
+      mantissa >>= 8;
+      return ((nSize + 1) << 24) | (mantissa & 0xffffff);
+    }
+
+    return (nSize << 24) | (mantissa & 0xffffff);
   }
 
   hashToBigInt(hash: string): bigint {
