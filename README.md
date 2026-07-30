@@ -1,27 +1,89 @@
 # Simulador Blockchain
-Un sencillo simulador para aprender sobre los conceptos básicos de la tecnología blockchain.
 
-Este simulador ha sido creado con el fin de explicar de forma grafica y sencilla, el funcionamiento de una blockchain y sus distintas partes. 
+[![CI](https://github.com/yukiteruamano/yukiteruamano.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/yukiteruamano/yukiteruamano.github.io/actions/workflows/ci.yml)
+[![Deploy](https://github.com/yukiteruamano/yukiteruamano.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/yukiteruamano/yukiteruamano.github.io/actions/workflows/deploy.yml)
+[![Angular](https://img.shields.io/badge/Angular-19.2-DD0031?logo=angular)](https://angular.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-De esta forma podrás comprender como se generan los bloques, el papel que juegan las primitivas criptográficas y de consenso, 
-asi como, comprender como se protege una blcockhain frente a cambios no deseados por parte de actores maliciosos. 
+Simulador educativo de Blockchain con **Angular 19**, firma digital **ECDSA** (secp256k1), modelo **UTXO**, Merkle Trees y Proof of Work real.
 
-El simulador está basado en el trabajo de [Anders Brownworth](https://github.com/anders94)
+Basado en el trabajo de [Anders Brownworth](https://github.com/anders94).
 
-![Simulador de blockchains de Bit2Me](/images/blockchain-bit2me.png) 
+---
 
-# Modo de uso
+## Usar el simulador
 
-Para usar el simulador todo lo que debes hacer es clonar o descargar el código fuente de este repositorio. Una vez hecho, basta con abrir index.html en tu navegador, y ya podrás usar el simulador en tu computador. 
+El simulador está disponible en:
 
-## Descargar simulador
+### **[yukiteruamano.github.io](https://yukiteruamano.github.io)**
 
-Para descargar el simuldor tienes dos formas:
+Navega entre las secciones del menú para explorar cada concepto:
 
-- Descargando el [zip](https://github.com/yukiteruamano/yukiteruamano.github.io/archive/refs/heads/master.zip) con el contenido del simulador. 
-- Realizando un clone del repositorio usando GIT.
+| Sección | Concepto |
+|---|---|
+| **Hash** | Función hash SHA-256 interactiva |
+| **Block** | Estructura de un bloque con minería PoW |
+| **Blockchain** | Cadena de bloques enlazados |
+| **Distribuido** | Red P2P con múltiples peers |
+| **Tokens** | Transacciones con modelo UTXO |
+| **Coinbase** | Transacciones coinbase y recompensas |
 
-## Iniciando el simulador
-Para iniciar el simulador solo basta con descomprimir (en caso de haber descargado el zip) o ir al directorio de clonación de Git y abrir el archivo **index.html**. Hecho esto, verás en tu navegadaor el simulador abierto y listo para ser usado. 
+---
 
-![Simulador de blockchains de Bit2Me](/images/blockchain-bit2me-browser.png) 
+## Desarrollo
+
+### Requisitos
+
+- [Node.js](https://nodejs.org/) 20 (usa `nvm use` si tienes nvm)
+- npm 10+
+
+### Instalación
+
+```bash
+git clone git@github.com:yukiteruamano/yukiteruamano.github.io.git
+cd yukiteruamano.github.io
+npm ci
+```
+
+### Scripts
+
+| Comando | Descripción |
+|---|---|
+| `npm start` | Servidor de desarrollo (http://localhost:4200) |
+| `npm run build` | Build de producción → `docs/` |
+| `npm test` | Tests unitarios (Karma + Jasmine) |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier |
+
+### Arquitectura
+
+```
+src/app/
+├── models/          # Interfaces TypeScript (Block, Transaction, UTXO...)
+├── services/        # Lógica de negocio (Signals-based)
+│   ├── blockchain.service.ts
+│   ├── crypto.service.ts      (SHA-256, ECDSA, P2PKH)
+│   ├── target.service.ts      (nBits, PoW, mining)
+│   └── mempool.service.ts
+├── components/      # Componentes reutilizables
+│   ├── block/                  # Visualización de bloque + minería
+│   ├── chain-info/             # Info de cadena
+│   ├── mempool/                # Transacciones pendientes
+│   ├── peer-info/              # Consenso entre peers
+│   ├── utxo-set/               # UTXO set table
+│   └── merkle-tree/            # Visualización árbol de Merkle
+├── pages/           # Páginas lazy-loaded (7 rutas)
+└── workers/         # Web Worker para minería asíncrona
+```
+
+### CI/CD
+
+- **CI**: Lint + build en cada push y PR a `master`
+- **Deploy**: Build + deploy a GitHub Pages vía `actions/deploy-pages`
+
+---
+
+## Licencia
+
+MIT — basado en el trabajo de [Anders Brownworth](https://github.com/anders94) (2016) y [José Maldonado](https://github.com/yukiteruamano) (2022-2026).

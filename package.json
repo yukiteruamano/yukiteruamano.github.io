@@ -1,6 +1,6 @@
 {
   "name": "simulador-blockchain",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Simulador educativo de Blockchain con Angular 18",
   "scripts": {
     "ng": "ng",
