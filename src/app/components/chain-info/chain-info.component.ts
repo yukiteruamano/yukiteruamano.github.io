@@ -8,8 +8,10 @@ import { GENESIS_NBITS } from '@app/constants';
   imports: [DecimalPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    (height: {{ blocks.length }} blocks, valid: {{ allValid }}, accumulated work:
-    {{ workAccumulated | number }})
+    <small class="text-muted">
+      (height: {{ blocks.length }} blocks, valid: {{ allValid }}, accumulated work:
+      {{ workAccumulated | number }})
+    </small>
   `,
 })
 export class ChainInfoComponent {

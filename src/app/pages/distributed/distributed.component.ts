@@ -12,10 +12,16 @@ import { ZERO_HASH } from '@app/constants';
   template: `
     <h1>Blockchain Distribuida</h1>
 
-    <div class="panel panel-default">
+    <div class="panel">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a (click)="showExplanation = !showExplanation" style="cursor: pointer"> Explicación </a>
+          <a
+            (click)="showExplanation = !showExplanation"
+            role="button"
+            [attr.aria-expanded]="showExplanation"
+          >
+            Explicación
+          </a>
         </h4>
       </div>
       @if (showExplanation) {

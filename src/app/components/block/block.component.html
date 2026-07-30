@@ -87,15 +87,9 @@
     }
 
     <div class="form-group">
-      <label class="col-sm-2 control-label" id="tx-label">
-        <a
-          (click)="showData = !showData"
-          style="cursor: pointer"
-          role="button"
-          aria-expanded="false"
-          >Tx:</a
-        >
-      </label>
+      <div class="col-sm-2 control-label" id="tx-label">
+        <a (click)="showData = !showData" role="button" [attr.aria-expanded]="showData">Tx:</a>
+      </div>
       <div class="col-sm-10">
         @for (tx of block.transactions; track tx.txid; let i = $index) {
           <div class="input-group mb-1">

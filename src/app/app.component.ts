@@ -31,7 +31,9 @@ export class AppComponent implements OnInit {
   }
 
   private applyTheme(): void {
-    document.documentElement.setAttribute('data-theme', this.darkMode ? 'dark' : 'light');
+    const theme = this.darkMode ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-bs-theme', theme);
   }
 
   onNBitsChange(event: Event): void {

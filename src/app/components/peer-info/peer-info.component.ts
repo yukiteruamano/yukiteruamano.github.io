@@ -7,8 +7,11 @@ import type { Peer, Block } from '@models/block';
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    (height: {{ blocks.length }} blocks, valid: {{ allValid }}, consensus: {{ consensus }} other
-    peers, last block hash: {{ lastBlockHash }})
+    <small class="text-muted">
+      (height: {{ blocks.length }} blocks, valid: {{ allValid }}, consensus: {{ consensus }} other
+      peers, last block hash: <span class="font-mono">{{ lastBlockHash }}</span
+      >)
+    </small>
   `,
 })
 export class PeerInfoComponent implements OnChanges {

@@ -9,16 +9,13 @@ import type { UTXO } from '@models/block';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (utxos.length > 0) {
-      <div class="panel panel-default" role="region" aria-label="UTXO Set">
+      <div class="panel" role="region" aria-label="UTXO Set">
         <div class="panel-heading">
           <h4 class="panel-title">UTXO Set ({{ utxos.length }} outputs sin gastar)</h4>
         </div>
         <div class="panel-body">
           <div class="table-responsive" tabindex="0" aria-label="Outputs sin gastar">
-            <table
-              class="table table-sm table-striped"
-              style="font-family: monospace; font-size: 12px"
-            >
+            <table class="table table-sm table-striped table-code">
               <thead>
                 <tr>
                   <th>TxID</th>

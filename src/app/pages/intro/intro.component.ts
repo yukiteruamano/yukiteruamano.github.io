@@ -34,8 +34,11 @@ import { RouterLink } from '@angular/router';
 
     <img
       src="https://academy.bit2me.com/wp-content/uploads/2020/08/seguridad-blockchain-mitos-bit2me-academy.png"
-      alt="Simulador Blockchain"
-      style="max-width: 100%; margin-top: 20px"
+      alt="Simulador Blockchain — Seguridad blockchain"
+      class="mt-4"
+      loading="lazy"
+      width="800"
+      height="400"
     />
   `,
 })

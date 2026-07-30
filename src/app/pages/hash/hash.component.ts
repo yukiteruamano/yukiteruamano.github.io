@@ -8,10 +8,16 @@ import { CryptoService } from '@services/crypto.service';
   template: `
     <h1>Función Hash SHA-256</h1>
 
-    <div class="panel panel-default">
+    <div class="panel">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a (click)="showExplanation = !showExplanation" style="cursor: pointer"> Explicación </a>
+          <a
+            (click)="showExplanation = !showExplanation"
+            role="button"
+            [attr.aria-expanded]="showExplanation"
+          >
+            Explicación
+          </a>
         </h4>
       </div>
       @if (showExplanation) {
@@ -47,22 +53,16 @@ import { CryptoService } from '@services/crypto.service';
           class="form-control"
           [(ngModel)]="data"
           (ngModelChange)="hash = cryptoService.sha256(data)"
-          style="font-family: monospace"
         ></textarea>
       </div>
       <div class="mb-3">
         <label class="form-label fw-bold">Hash SHA-256:</label>
-        <input class="form-control" [value]="hash" readonly style="font-family: monospace" />
+        <input class="form-control" [value]="hash" readonly />
       </div>
       @if (data) {
         <div class="mb-3">
           <label class="form-label fw-bold">Double SHA-256 (SHA256d):</label>
-          <input
-            class="form-control"
-            [value]="cryptoService.sha256d(data)"
-            readonly
-            style="font-family: monospace"
-          />
+          <input class="form-control" [value]="cryptoService.sha256d(data)" readonly />
         </div>
       }
     </div>
