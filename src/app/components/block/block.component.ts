@@ -16,7 +16,6 @@ import { BlockchainService } from '@services/blockchain.service';
 
 @Component({
   selector: 'block-component',
-  standalone: true,
   imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './block.component.html',

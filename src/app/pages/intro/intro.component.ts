@@ -3,7 +3,6 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-intro',
-  standalone: true,
   imports: [RouterLink],
   template: `
     <h1>Simulador Blockchain</h1>

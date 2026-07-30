@@ -4,7 +4,6 @@ import type { Peer, Block } from '@models/block';
 
 @Component({
   selector: 'peer-info',
-  standalone: true,
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

@@ -10,7 +10,6 @@ import { ZERO_HASH } from '@app/constants';
 
 @Component({
   selector: 'app-block-page',
-  standalone: true,
   imports: [FormsModule, BlockComponent, MerkleTreeComponent],
   template: `
     <h1>Bloque</h1>

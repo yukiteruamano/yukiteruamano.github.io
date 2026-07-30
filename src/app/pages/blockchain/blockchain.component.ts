@@ -10,7 +10,6 @@ import { ZERO_HASH } from '@app/constants';
 
 @Component({
   selector: 'app-blockchain-page',
-  standalone: true,
   imports: [BlockComponent, ChainInfoComponent],
   template: `
     <h1>

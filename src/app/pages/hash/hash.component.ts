@@ -4,7 +4,6 @@ import { CryptoService } from '@services/crypto.service';
 
 @Component({
   selector: 'app-hash',
-  standalone: true,
   imports: [FormsModule],
   template: `
     <h1>Función Hash SHA-256</h1>

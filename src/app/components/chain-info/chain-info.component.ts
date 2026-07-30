@@ -5,7 +5,6 @@ import { GENESIS_NBITS } from '@app/constants';
 
 @Component({
   selector: 'chain-info',
-  standalone: true,
   imports: [DecimalPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

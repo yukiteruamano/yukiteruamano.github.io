@@ -4,7 +4,6 @@ import { CryptoService } from '@services/crypto.service';
 
 @Component({
   selector: 'merkle-tree',
-  standalone: true,
   imports: [DecimalPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

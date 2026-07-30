@@ -8,7 +8,6 @@ import { ZERO_HASH } from '@app/constants';
 
 @Component({
   selector: 'app-distributed',
-  standalone: true,
   imports: [BlockComponent, PeerInfoComponent],
   template: `
     <h1>Blockchain Distribuida</h1>
