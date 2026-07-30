@@ -228,6 +228,16 @@ export class BlockchainService {
     return result;
   }
 
+  async mineBlockAsync(block: Block): Promise<{ nonce: number; hash: string; duration: number }> {
+    const result = await this.targetService.mineBlockAsync(block.header);
+    block.header.nonce = result.nonce;
+    block.hash = result.hash;
+    block.valid = this.targetService.checkProofOfWork(result.hash, block.header.nBits);
+    block.mined = true;
+    block.miningStats = ` took ${this.round(result.duration, 1)}s, hashes: ${this.round(result.nonce, 0)}`;
+    return result;
+  }
+
   addBlock(block: Block, mempoolTxs: Transaction[]): void {
     block.valid = this.validateBlock(block);
     this.chain.update((chain) => [...chain, block]);

@@ -60,6 +60,30 @@ export class TargetService {
     return { nonce, hash, duration };
   }
 
+  mineBlockAsync(header: BlockHeader): Promise<{ nonce: number; hash: string; duration: number }> {
+    return new Promise((resolve) => {
+      const worker = new Worker(new URL('../workers/miner.worker', import.meta.url), {
+        type: 'module',
+      });
+
+      const targetHex = this.nBitsToTarget(header.nBits).toString(16);
+
+      worker.postMessage({
+        version: header.version,
+        previousBlockHash: header.previousBlockHash,
+        merkleRoot: header.merkleRoot,
+        timestamp: header.timestamp,
+        nBits: header.nBits,
+        targetHex,
+      });
+
+      worker.addEventListener('message', ({ data }) => {
+        worker.terminate();
+        resolve(data);
+      });
+    });
+  }
+
   calcDifficulty(nBits: number): number {
     const target = this.nBitsToTarget(nBits);
     const genesisTarget = this.nBitsToTarget(GENESIS_NBITS);

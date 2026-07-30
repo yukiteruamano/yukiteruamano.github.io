@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +27,7 @@ export class BlockComponent implements OnChanges {
   @Input() simpleMode = false;
   @Output() blockChanged = new EventEmitter<Block>();
 
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly crypto = inject(CryptoService);
   private readonly targetService = inject(TargetService);
   private readonly blockchain = inject(BlockchainService);
@@ -33,8 +35,6 @@ export class BlockComponent implements OnChanges {
   dataString = '';
   showData = false;
   mining = false;
-  miningProgress = '';
-  miningSpeed = '';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['block'] && this.block && !this.dataString) {
@@ -72,17 +72,11 @@ export class BlockComponent implements OnChanges {
     this.blockChanged.emit(this.block);
   }
 
-  mine(): void {
+  async mine(): Promise<void> {
     this.mining = true;
-    const result = this.targetService.mineBlock(this.block.header, (input) =>
-      this.crypto.sha256d(input),
-    );
+    this.cdr.markForCheck();
 
-    this.block.header.nonce = result.nonce;
-    this.block.hash = result.hash;
-    this.block.valid = this.targetService.checkProofOfWork(result.hash, this.block.header.nBits);
-    this.block.mined = true;
-    this.block.miningStats = ` ${this.blockchain.round(result.duration, 1)}s, ${this.blockchain.round(result.nonce, 0)} hashes`;
+    await this.blockchain.mineBlockAsync(this.block);
 
     this.mining = false;
     this.blockChanged.emit(this.block);
