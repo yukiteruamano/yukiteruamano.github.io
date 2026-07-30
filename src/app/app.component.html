@@ -1,20 +1,34 @@
-<nav class="navbar navbar-expand-lg fixed-top" style="background: #02264a">
+<nav
+  class="navbar navbar-expand-lg fixed-top"
+  style="background: #02264a"
+  role="navigation"
+  aria-label="Navegación principal"
+>
   <div class="container">
-    <a class="navbar-brand text-white fw-bold" routerLink="/">Simulador Blockchain</a>
+    <a
+      class="navbar-brand text-white fw-bold"
+      routerLink="/"
+      aria-label="Simulador Blockchain — Ir al inicio"
+      >Simulador Blockchain</a
+    >
   </div>
 </nav>
 
 <div class="container pt-5 mt-4">
   @if (blockchain.expertMode()) {
-    <form class="d-flex justify-content-end gap-2 mb-3">
+    <form class="d-flex justify-content-end gap-2 mb-3" aria-label="Configuración de minado">
       <div class="d-flex align-items-center gap-2">
-        <label class="text-white mb-0" style="font-size: 14px">Dificultad:</label>
+        <label class="text-white mb-0" style="font-size: 14px" for="difficulty-select"
+          >Dificultad:</label
+        >
         <select
+          id="difficulty-select"
           class="form-select form-select-sm"
           style="width: auto"
           [ngModel]="blockchain.difficulty()"
           (ngModelChange)="blockchain.setDifficulty($event)"
           [ngModelOptions]="{ standalone: true }"
+          aria-label="Seleccionar dificultad de minado"
         >
           @for (val of [2, 4, 6, 8, 10]; track val) {
             <option [value]="val">{{ val }} (0s)</option>
@@ -22,11 +36,15 @@
         </select>
       </div>
       <div class="d-flex align-items-center gap-2">
-        <label class="text-white mb-0" style="font-size: 14px">Target (nBits):</label>
+        <label class="text-white mb-0" style="font-size: 14px" for="nbits-select"
+          >Target (nBits):</label
+        >
         <select
+          id="nbits-select"
           class="form-select form-select-sm"
           style="width: auto"
           (change)="onNBitsChange($event)"
+          aria-label="Seleccionar target nBits"
         >
           <option [value]="486604799">Genesis (0x1d00ffff)</option>
           <option [value]="469762047">6 ceros (0x1c00ffff)</option>
@@ -40,6 +58,7 @@
       class="btn btn-sm mb-3"
       style="background: #ff6600; color: #fff"
       (click)="blockchain.toggleExpertMode()"
+      aria-label="Activar modo experto"
     >
       Activar Modo Experto
     </button>

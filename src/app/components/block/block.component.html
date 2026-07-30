@@ -2,55 +2,69 @@
   class="well well-sm"
   [class.well-success]="block.valid && block.mined"
   [class.well-error]="!block.valid && block.mined"
+  role="region"
+  [attr.aria-label]="'Bloque ' + block.height"
 >
-  <div class="form-horizontal">
+  <form class="form-horizontal" (ngSubmit)="mine()">
     <div class="form-group">
-      <label class="col-sm-2 control-label">Bloque:</label>
+      <label class="col-sm-2 control-label" for="block-number">Bloque:</label>
       <div class="col-sm-10">
         <div class="input-group">
           <span class="input-group-text">#</span>
           <input
+            id="block-number"
             [ngModel]="block.height"
             (ngModelChange)="block.height = $event; updateBlock()"
             class="form-control"
+            aria-label="Número de bloque"
+            name="blockNumber"
           />
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Versión:</label>
+      <label class="col-sm-2 control-label" for="block-version">Versión:</label>
       <div class="col-sm-10">
         <input
+          id="block-version"
           type="number"
           [ngModel]="block.header.version"
           (ngModelChange)="block.header.version = $event; updateBlock()"
           class="form-control"
+          aria-label="Versión del bloque"
+          name="blockVersion"
         />
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Nonce:</label>
+      <label class="col-sm-2 control-label" for="block-nonce">Nonce:</label>
       <div class="col-sm-10">
         <input
+          id="block-nonce"
           type="number"
           [ngModel]="block.header.nonce"
           (ngModelChange)="block.header.nonce = $event; updateBlock()"
           class="form-control"
+          aria-label="Nonce del bloque"
+          name="blockNonce"
         />
       </div>
     </div>
 
     @if (expertMode) {
       <div class="form-group">
-        <label class="col-sm-2 control-label">Timestamp:</label>
+        <label class="col-sm-2 control-label" for="block-timestamp">Timestamp:</label>
         <div class="col-sm-10">
           <input
+            id="block-timestamp"
             type="number"
             [ngModel]="block.header.timestamp"
             (ngModelChange)="block.header.timestamp = $event; updateBlock()"
             class="form-control"
+            aria-label="Timestamp UNIX del bloque"
+            name="blockTimestamp"
           />
         </div>
       </div>
@@ -58,22 +72,40 @@
 
     @if (expertMode) {
       <div class="form-group">
-        <label class="col-sm-2 control-label">nBits (target):</label>
+        <label class="col-sm-2 control-label" for="block-nbits">nBits (target):</label>
         <div class="col-sm-10">
-          <input [ngModel]="'0x' + block.header.nBits.toString(16)" class="form-control" readonly />
+          <input
+            id="block-nbits"
+            [ngModel]="'0x' + block.header.nBits.toString(16)"
+            class="form-control"
+            readonly
+            aria-label="nBits compact target"
+            name="blockNBits"
+          />
         </div>
       </div>
     }
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">
-        <a (click)="showData = !showData" style="cursor: pointer">Tx:</a>
+      <label class="col-sm-2 control-label" id="tx-label">
+        <a
+          (click)="showData = !showData"
+          style="cursor: pointer"
+          role="button"
+          aria-expanded="false"
+          >Tx:</a
+        >
       </label>
       <div class="col-sm-10">
         @for (tx of block.transactions; track tx.txid; let i = $index) {
           <div class="input-group mb-1">
             <span class="input-group-text">{{ tx.isCoinbase ? 'CB' : 'Tx' }}</span>
-            <input [value]="tx.txid.substring(0, 14) + '...'" class="form-control" readonly />
+            <input
+              [value]="tx.txid.substring(0, 14) + '...'"
+              class="form-control"
+              readonly
+              [attr.aria-label]="'Transacción ' + (i + 1)"
+            />
             <span class="input-group-text">
               {{ tx.outputs[0]?.value || 0 }}
             </span>
@@ -84,36 +116,57 @@
 
     @if (showData || block.transactions.length === 0) {
       <div class="form-group">
-        <label class="col-sm-2 control-label">Data:</label>
+        <label class="col-sm-2 control-label" for="block-data">Data:</label>
         <div class="col-sm-10">
           <textarea
+            id="block-data"
             rows="6"
             [ngModel]="dataString"
             (ngModelChange)="onDataChange($event)"
             class="form-control"
+            aria-label="Datos del bloque en formato JSON"
+            name="blockData"
           ></textarea>
         </div>
       </div>
     }
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Prev:</label>
+      <label class="col-sm-2 control-label" for="block-prev">Prev:</label>
       <div class="col-sm-10">
-        <input [value]="block.header.previousBlockHash" class="form-control" readonly />
+        <input
+          id="block-prev"
+          [value]="block.header.previousBlockHash"
+          class="form-control"
+          readonly
+          aria-label="Hash del bloque anterior"
+        />
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Merkle Root:</label>
+      <label class="col-sm-2 control-label" for="block-merkle">Merkle Root:</label>
       <div class="col-sm-10">
-        <input [value]="block.header.merkleRoot" class="form-control" readonly />
+        <input
+          id="block-merkle"
+          [value]="block.header.merkleRoot"
+          class="form-control"
+          readonly
+          aria-label="Raíz del árbol de Merkle"
+        />
       </div>
     </div>
 
     <div class="form-group">
-      <label class="col-sm-2 control-label">Hash:</label>
+      <label class="col-sm-2 control-label" for="block-hash">Hash:</label>
       <div class="col-sm-10">
-        <input [value]="block.hash" class="form-control" readonly />
+        <input
+          id="block-hash"
+          [value]="block.hash"
+          class="form-control"
+          readonly
+          aria-label="Hash SHA-256d del bloque"
+        />
       </div>
     </div>
 
@@ -121,7 +174,12 @@
       <div class="form-group">
         <div class="col-sm-2"></div>
         <div class="col-sm-10">
-          <button class="btn btn-primary" (click)="mine()" [disabled]="mining">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="mining"
+            aria-label="Minar bloque"
+          >
             @if (mining) {
               <span
                 class="spinner-border spinner-border-sm me-1"
@@ -134,10 +192,10 @@
             }
           </button>
           @if (block.mined && expertMode) {
-            <span class="ms-2">{{ block.miningStats }}</span>
+            <span class="ms-2" role="status" aria-live="polite">{{ block.miningStats }}</span>
           }
         </div>
       </div>
     }
-  </div>
+  </form>
 </div>

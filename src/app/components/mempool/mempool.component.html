@@ -1,36 +1,44 @@
 @if (count > 0) {
-  <div class="panel panel-default">
+  <div class="panel panel-default" role="region" aria-label="Mempool de transacciones">
     <div class="panel-heading">
       <h4 class="panel-title">Mempool ({{ count }} transacciones pendientes)</h4>
     </div>
     <div class="panel-body">
-      <table class="table table-sm table-striped" style="font-family: monospace; font-size: 12px">
-        <thead>
-          <tr>
-            <th>TxID</th>
-            <th>Desde</th>
-            <th>Hacia</th>
-            <th>Valor</th>
-            <th>Fee (sat)</th>
-            <th>Fee Rate</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (entry of entries; track entry.transaction.txid) {
+      <div class="table-responsive" tabindex="0" aria-label="Transacciones pendientes">
+        <table class="table table-sm table-striped" style="font-family: monospace; font-size: 12px">
+          <thead>
             <tr>
-              <td>{{ entry.transaction.txid.substring(0, 10) }}...</td>
-              <td>
-                {{ entry.transaction.inputs[0]?.previousTxHash?.substring(0, 8) || 'coinbase' }}...
-              </td>
-              <td>{{ entry.transaction.outputs[0]?.address?.substring(0, 8) || '—' }}...</td>
-              <td>{{ entry.transaction.outputs[0]?.value || 0 }}</td>
-              <td>{{ entry.transaction.fee || 0 }}</td>
-              <td>{{ entry.feeRate | number: '1.0-2' }}</td>
+              <th>TxID</th>
+              <th>Desde</th>
+              <th>Hacia</th>
+              <th>Valor</th>
+              <th>Fee (sat)</th>
+              <th>Fee Rate</th>
             </tr>
-          }
-        </tbody>
-      </table>
-      <button class="btn btn-sm btn-primary" (click)="mineSelected()">
+          </thead>
+          <tbody>
+            @for (entry of entries; track entry.transaction.txid) {
+              <tr>
+                <td>{{ entry.transaction.txid.substring(0, 10) }}...</td>
+                <td>
+                  {{
+                    entry.transaction.inputs[0]?.previousTxHash?.substring(0, 8) || 'coinbase'
+                  }}...
+                </td>
+                <td>{{ entry.transaction.outputs[0]?.address?.substring(0, 8) || '—' }}...</td>
+                <td>{{ entry.transaction.outputs[0]?.value || 0 }}</td>
+                <td>{{ entry.transaction.fee || 0 }}</td>
+                <td>{{ entry.feeRate | number: '1.0-2' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <button
+        class="btn btn-sm btn-primary"
+        (click)="mineSelected()"
+        aria-label="Minar bloque con transacciones seleccionadas"
+      >
         Minar bloque con TX seleccionadas
       </button>
     </div>
