@@ -1,6 +1,5 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import type { Peer } from '@models/block';
 import { BlockchainService } from '@services/blockchain.service';
 import { BlockComponent } from '@components/block/block.component';
@@ -9,7 +8,7 @@ import { PeerInfoComponent } from '@components/peer-info/peer-info.component';
 @Component({
   selector: 'app-coinbase',
   standalone: true,
-  imports: [CommonModule, BlockComponent, PeerInfoComponent],
+  imports: [BlockComponent, PeerInfoComponent],
   template: `
     <h1>Transacción Coinbase</h1>
 
@@ -19,47 +18,55 @@ import { PeerInfoComponent } from '@components/peer-info/peer-info.component';
           <a (click)="showExplanation = !showExplanation" style="cursor: pointer"> Explicación </a>
         </h4>
       </div>
-      <div class="panel-body" *ngIf="showExplanation">
-        <p>
-          Una transacción coinbase es una transacción especial creada por los mineros que les
-          permite obtener la recompensa de bloque (block reward) más las comisiones de las
-          transacciones incluidas.
-        </p>
-        <p>
-          Es siempre la primera transacción de un bloque y tiene un input especial:
-          <code>prevTxHash = 0x0</code>, <code>outputIndex = 0xFFFFFFFF</code>, y su
-          <code>scriptSig</code> contiene la altura del bloque y datos arbitrarios (como el famoso
-          mensaje de Satoshi en el bloque génesis).
-        </p>
-        <p>
-          La recompensa de bloque sigue un esquema de <strong>halving</strong>: se reduce a la mitad
-          cada 210,000 bloques (~4 años). Empezó en 50 BTC y actualmente está en 3.125 BTC.
-        </p>
-        <ul>
-          <li>
-            <a href="https://academy.bit2me.com/que-es-coinbase-transaccion/" target="_blank"
-              >Bit2Me Academy - Transacción Coinbase</a
-            >
-          </li>
-        </ul>
-      </div>
+      @if (showExplanation) {
+        <div class="panel-body">
+          <p>
+            Una transacción coinbase es una transacción especial creada por los mineros que les
+            permite obtener la recompensa de bloque (block reward) más las comisiones de las
+            transacciones incluidas.
+          </p>
+          <p>
+            Es siempre la primera transacción de un bloque y tiene un input especial:
+            <code>prevTxHash = 0x0</code>, <code>outputIndex = 0xFFFFFFFF</code>, y su
+            <code>scriptSig</code> contiene la altura del bloque y datos arbitrarios (como el famoso
+            mensaje de Satoshi en el bloque génesis).
+          </p>
+          <p>
+            La recompensa de bloque sigue un esquema de <strong>halving</strong>: se reduce a la
+            mitad cada 210,000 bloques (~4 años). Empezó en 50 BTC y actualmente está en 3.125 BTC.
+          </p>
+          <ul>
+            <li>
+              <a href="https://academy.bit2me.com/que-es-coinbase-transaccion/" target="_blank"
+                >Bit2Me Academy - Transacción Coinbase</a
+              >
+            </li>
+          </ul>
+        </div>
+      }
     </div>
 
-    <div *ngFor="let peer of peers; let i = index">
-      <h3>
-        {{ peer.name }}
-        <peer-info *ngIf="blockchain.expertMode()" [peers]="peers" [peerIndex]="i"></peer-info>
-      </h3>
-      <div class="row row-horizon">
-        <div class="col-md-10" *ngFor="let b of peer.blocks; let j = index">
-          <block-component
-            [block]="b"
-            [showMineButton]="false"
-            (blockChanged)="onBlockChanged(i, j, $event)"
-          ></block-component>
+    @for (peer of peers; track peer.name; let i = $index) {
+      <div>
+        <h3>
+          {{ peer.name }}
+          @if (blockchain.expertMode()) {
+            <peer-info [peers]="peers" [peerIndex]="i"></peer-info>
+          }
+        </h3>
+        <div class="row row-horizon">
+          @for (b of peer.blocks; track b.hash; let j = $index) {
+            <div class="col-md-10">
+              <block-component
+                [block]="b"
+                [showMineButton]="false"
+                (blockChanged)="onBlockChanged(i, j, $event)"
+              ></block-component>
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
   `,
 })
 export class CoinbaseComponent implements OnInit {

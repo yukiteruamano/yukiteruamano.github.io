@@ -1,12 +1,12 @@
 import { Component, Output, EventEmitter, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import type { MempoolEntry } from '@models/block';
 import { MempoolService } from '@services/mempool.service';
 
 @Component({
   selector: 'mempool',
   standalone: true,
-  imports: [CommonModule],
+  imports: [DecimalPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './mempool.component.html',
 })

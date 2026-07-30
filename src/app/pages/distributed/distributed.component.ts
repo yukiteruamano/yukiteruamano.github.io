@@ -1,6 +1,5 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import type { Peer } from '@models/block';
 import { BlockchainService } from '@services/blockchain.service';
 import { BlockComponent } from '@components/block/block.component';
@@ -9,7 +8,7 @@ import { PeerInfoComponent } from '@components/peer-info/peer-info.component';
 @Component({
   selector: 'app-distributed',
   standalone: true,
-  imports: [CommonModule, BlockComponent, PeerInfoComponent],
+  imports: [BlockComponent, PeerInfoComponent],
   template: `
     <h1>Blockchain Distribuida</h1>
 
@@ -19,37 +18,45 @@ import { PeerInfoComponent } from '@components/peer-info/peer-info.component';
           <a (click)="showExplanation = !showExplanation" style="cursor: pointer"> Explicación </a>
         </h4>
       </div>
-      <div class="panel-body" *ngIf="showExplanation">
-        <p>
-          La blockchain se asienta sobre la descentralización de sus nodos. Cada nodo tiene su
-          propia copia completa o parcial de los datos, verificando operaciones de forma autónoma.
-          Así se mantiene la coherencia e integridad en todo momento.
-        </p>
-        <ul>
-          <li>
-            <a href="https://academy.bit2me.com/tipos-redes-criptomonedas/" target="_blank"
-              >Bit2Me Academy - Redes de criptomonedas</a
-            >
-          </li>
-        </ul>
-      </div>
+      @if (showExplanation) {
+        <div class="panel-body">
+          <p>
+            La blockchain se asienta sobre la descentralización de sus nodos. Cada nodo tiene su
+            propia copia completa o parcial de los datos, verificando operaciones de forma autónoma.
+            Así se mantiene la coherencia e integridad en todo momento.
+          </p>
+          <ul>
+            <li>
+              <a href="https://academy.bit2me.com/tipos-redes-criptomonedas/" target="_blank"
+                >Bit2Me Academy - Redes de criptomonedas</a
+              >
+            </li>
+          </ul>
+        </div>
+      }
     </div>
 
-    <div class="col-md-10" *ngFor="let peer of peers; let i = index">
-      <h3>
-        {{ peer.name }}
-        <peer-info *ngIf="blockchain.expertMode()" [peers]="peers" [peerIndex]="i"></peer-info>
-      </h3>
-      <div class="row row-horizon">
-        <div class="col-md-10" *ngFor="let b of peer.blocks; let j = index">
-          <block-component
-            [block]="b"
-            [showMineButton]="false"
-            (blockChanged)="onBlockChanged(i, j, $event)"
-          ></block-component>
+    @for (peer of peers; track peer.name; let i = $index) {
+      <div class="col-md-10">
+        <h3>
+          {{ peer.name }}
+          @if (blockchain.expertMode()) {
+            <peer-info [peers]="peers" [peerIndex]="i"></peer-info>
+          }
+        </h3>
+        <div class="row row-horizon">
+          @for (b of peer.blocks; track b.hash; let j = $index) {
+            <div class="col-md-10">
+              <block-component
+                [block]="b"
+                [showMineButton]="false"
+                (blockChanged)="onBlockChanged(i, j, $event)"
+              ></block-component>
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
   `,
 })
 export class DistributedComponent implements OnInit {

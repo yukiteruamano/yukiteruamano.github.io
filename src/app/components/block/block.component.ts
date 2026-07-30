@@ -8,7 +8,6 @@ import {
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import type { Block } from '@models/block';
 import { BlockHeader, Transaction } from '@models/block';
 import { CryptoService } from '@services/crypto.service';
@@ -18,7 +17,7 @@ import { BlockchainService } from '@services/blockchain.service';
 @Component({
   selector: 'block-component',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './block.component.html',
 })

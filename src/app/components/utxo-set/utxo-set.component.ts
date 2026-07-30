@@ -1,39 +1,45 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { BlockchainService } from '@services/blockchain.service';
 import type { UTXO } from '@models/block';
 
 @Component({
   selector: 'utxo-set',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="panel panel-default" *ngIf="utxos.length > 0">
-      <div class="panel-heading">
-        <h4 class="panel-title">UTXO Set ({{ utxos.length }} outputs sin gastar)</h4>
+    @if (utxos.length > 0) {
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">UTXO Set ({{ utxos.length }} outputs sin gastar)</h4>
+        </div>
+        <div class="panel-body">
+          <table
+            class="table table-sm table-striped"
+            style="font-family: monospace; font-size: 12px"
+          >
+            <thead>
+              <tr>
+                <th>TxID</th>
+                <th>Index</th>
+                <th>Dirección</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (utxo of utxos; track utxo.txid + '_' + utxo.outputIndex) {
+                <tr>
+                  <td>{{ utxo.txid.substring(0, 10) }}...</td>
+                  <td>{{ utxo.outputIndex }}</td>
+                  <td>{{ utxo.address.substring(0, 10) }}...</td>
+                  <td>{{ utxo.value }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="panel-body">
-        <table class="table table-sm table-striped" style="font-family: monospace; font-size: 12px">
-          <thead>
-            <tr>
-              <th>TxID</th>
-              <th>Index</th>
-              <th>Dirección</th>
-              <th>Valor</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let utxo of utxos">
-              <td>{{ utxo.txid.substring(0, 10) }}...</td>
-              <td>{{ utxo.outputIndex }}</td>
-              <td>{{ utxo.address.substring(0, 10) }}...</td>
-              <td>{{ utxo.value }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    }
   `,
 })
 export class UtxoSetComponent {

@@ -1,6 +1,5 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import type { Block } from '@models/block';
 import { BlockchainService } from '@services/blockchain.service';
 import { CryptoService } from '@services/crypto.service';
@@ -11,11 +10,13 @@ import { ChainInfoComponent } from '@components/chain-info/chain-info.component'
 @Component({
   selector: 'app-blockchain-page',
   standalone: true,
-  imports: [CommonModule, BlockComponent, ChainInfoComponent],
+  imports: [BlockComponent, ChainInfoComponent],
   template: `
     <h1>
       Blockchain
-      <chain-info *ngIf="blockchain.expertMode()" [blocks]="blocks"></chain-info>
+      @if (blockchain.expertMode()) {
+        <chain-info [blocks]="blocks"></chain-info>
+      }
     </h1>
 
     <div class="panel panel-default">
@@ -24,33 +25,37 @@ import { ChainInfoComponent } from '@components/chain-info/chain-info.component'
           <a (click)="showExplanation = !showExplanation" style="cursor: pointer"> Explicación </a>
         </h4>
       </div>
-      <div class="panel-body" *ngIf="showExplanation">
-        <p>
-          Una blockchain no es más que la concatenación de varios bloques de datos generados por una
-          red P2P. Cada bloque se enlaza con el anterior usando su hash, creando una cadena
-          inmutable.
-        </p>
-        <p>
-          Si se altera cualquier dato de un bloque, su hash cambia, y todos los bloques posteriores
-          quedan invalidados porque el <code>previousBlockHash</code>
-          del siguiente bloque ya no coincide. Esta propiedad es la base de la seguridad de una
-          blockchain.
-        </p>
-        <p>
-          La validación usa <strong>Proof of Work real</strong>: el hash del bloque debe ser menor o
-          igual al target definido por <code>nBits</code>.
-        </p>
-      </div>
+      @if (showExplanation) {
+        <div class="panel-body">
+          <p>
+            Una blockchain no es más que la concatenación de varios bloques de datos generados por
+            una red P2P. Cada bloque se enlaza con el anterior usando su hash, creando una cadena
+            inmutable.
+          </p>
+          <p>
+            Si se altera cualquier dato de un bloque, su hash cambia, y todos los bloques
+            posteriores quedan invalidados porque el <code>previousBlockHash</code>
+            del siguiente bloque ya no coincide. Esta propiedad es la base de la seguridad de una
+            blockchain.
+          </p>
+          <p>
+            La validación usa <strong>Proof of Work real</strong>: el hash del bloque debe ser menor
+            o igual al target definido por <code>nBits</code>.
+          </p>
+        </div>
+      }
     </div>
 
     <div class="row row-horizon">
-      <div class="col-md-10" *ngFor="let b of blocks; let i = index">
-        <block-component
-          [block]="b"
-          [showMineButton]="true"
-          (blockChanged)="onBlockChanged(i, $event)"
-        ></block-component>
-      </div>
+      @for (b of blocks; track b.hash; let i = $index) {
+        <div class="col-md-10">
+          <block-component
+            [block]="b"
+            [showMineButton]="true"
+            (blockChanged)="onBlockChanged(i, $event)"
+          ></block-component>
+        </div>
+      }
     </div>
   `,
 })

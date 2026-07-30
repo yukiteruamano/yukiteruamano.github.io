@@ -5,43 +5,45 @@
 </nav>
 
 <div class="container pt-5 mt-4">
-  <form class="d-flex justify-content-end gap-2 mb-3" *ngIf="expertMode">
-    <div class="d-flex align-items-center gap-2">
-      <label class="text-white mb-0" style="font-size: 14px">Dificultad:</label>
-      <select
-        class="form-select form-select-sm"
-        style="width: auto"
-        [ngModel]="difficulty"
-        (ngModelChange)="onDifficultyChange($event)"
-        [ngModelOptions]="{ standalone: true }"
-      >
-        @for (val of [2, 4, 6, 8, 10]; track val) {
-          <option [value]="val">{{ val }} (0s)</option>
-        }
-      </select>
-    </div>
-    <div class="d-flex align-items-center gap-2">
-      <label class="text-white mb-0" style="font-size: 14px">Target (nBits):</label>
-      <select
-        class="form-select form-select-sm"
-        style="width: auto"
-        (change)="onNBitsChange($event)"
-      >
-        <option [value]="486604799">Genesis (0x1d00ffff)</option>
-        <option [value]="469762047">6 ceros (0x1c00ffff)</option>
-        <option [value]="452984831">8 ceros (0x1b00ffff)</option>
-        <option [value]="436207615">10 ceros (0x1a00ffff)</option>
-      </select>
-    </div>
-  </form>
-  <button
-    class="btn btn-sm mb-3"
-    style="background: #ff6600; color: #fff"
-    *ngIf="!expertMode"
-    (click)="toggleExpertMode()"
-  >
-    Activar Modo Experto
-  </button>
+  @if (expertMode) {
+    <form class="d-flex justify-content-end gap-2 mb-3">
+      <div class="d-flex align-items-center gap-2">
+        <label class="text-white mb-0" style="font-size: 14px">Dificultad:</label>
+        <select
+          class="form-select form-select-sm"
+          style="width: auto"
+          [ngModel]="difficulty"
+          (ngModelChange)="onDifficultyChange($event)"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          @for (val of [2, 4, 6, 8, 10]; track val) {
+            <option [value]="val">{{ val }} (0s)</option>
+          }
+        </select>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <label class="text-white mb-0" style="font-size: 14px">Target (nBits):</label>
+        <select
+          class="form-select form-select-sm"
+          style="width: auto"
+          (change)="onNBitsChange($event)"
+        >
+          <option [value]="486604799">Genesis (0x1d00ffff)</option>
+          <option [value]="469762047">6 ceros (0x1c00ffff)</option>
+          <option [value]="452984831">8 ceros (0x1b00ffff)</option>
+          <option [value]="436207615">10 ceros (0x1a00ffff)</option>
+        </select>
+      </div>
+    </form>
+  } @else {
+    <button
+      class="btn btn-sm mb-3"
+      style="background: #ff6600; color: #fff"
+      (click)="toggleExpertMode()"
+    >
+      Activar Modo Experto
+    </button>
+  }
 
   <router-outlet></router-outlet>
 </div>

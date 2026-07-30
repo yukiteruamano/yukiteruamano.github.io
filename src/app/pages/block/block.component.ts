@@ -1,18 +1,16 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { Block, BlockHeader } from '@models/block';
 import { BlockchainService } from '@services/blockchain.service';
 import { CryptoService } from '@services/crypto.service';
-import { TargetService } from '@services/target.service';
 import { BlockComponent } from '@components/block/block.component';
 import type { KeyPair } from '@models/block';
 
 @Component({
   selector: 'app-block-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, BlockComponent],
+  imports: [FormsModule, BlockComponent],
   template: `
     <h1>Bloque</h1>
 
@@ -22,70 +20,71 @@ import type { KeyPair } from '@models/block';
           <a (click)="showExplanation = !showExplanation" style="cursor: pointer"> Explicación </a>
         </h4>
       </div>
-      <div class="panel-body" *ngIf="showExplanation">
-        <p>Un bloque es la unidad donde se ordenan los datos dentro de una blockchain.</p>
-        <p>En su interior contiene:</p>
-        <ul>
-          <li><strong>Versión:</strong> Versión del formato del bloque.</li>
-          <li>
-            <strong>Hash del bloque anterior:</strong> Enlaza el bloque con el anterior en la
-            cadena. Si el hash de un bloque previo cambia, toda la cadena posterior se invalida.
-          </li>
-          <li>
-            <strong>Merkle Root:</strong> Raíz del árbol de Merkle construido con todas las
-            transacciones del bloque. Permite verificar eficientemente la integridad de los datos.
-          </li>
-          <li><strong>Timestamp:</strong> Marca de tiempo UNIX del bloque.</li>
-          <li>
-            <strong>nBits (Target):</strong> Representación compacta del target de dificultad.
-            Define cuán difícil es encontrar un hash válido.
-          </li>
-          <li>
-            <strong>Nonce:</strong> Número que los mineros iteran para encontrar un hash que cumpla
-            con el target.
-          </li>
-        </ul>
-        <h3>Minería (Proof of Work)</h3>
-        <p>
-          El hash del bloque debe ser menor o igual al target definido por nBits. Los mineros
-          prueban distintos nonces hasta encontrar uno que cumpla esta condición:
-          <code
-            >SHA256d(version + prevHash + merkleRoot + timestamp + nBits + nonce) &lt;= target</code
-          >.
-        </p>
-        <h3>Enlaces:</h3>
-        <ul>
-          <li>
-            <a
-              href="https://academy.bit2me.com/que-es-un-bloque-dentro-de-la-blockchain/"
-              target="_blank"
-              >Bit2Me Academy - ¿Qué es un bloque?</a
-            >
-          </li>
-          <li>
-            <a
-              href="https://academy.bit2me.com/mineria-bitcoin-como-se-crea-un-bloque/"
-              target="_blank"
-              >Bit2Me Academy - Minería Bitcoin</a
-            >
-          </li>
-        </ul>
-      </div>
+      @if (showExplanation) {
+        <div class="panel-body">
+          <p>Un bloque es la unidad donde se ordenan los datos dentro de una blockchain.</p>
+          <p>En su interior contiene:</p>
+          <ul>
+            <li><strong>Versión:</strong> Versión del formato del bloque.</li>
+            <li>
+              <strong>Hash del bloque anterior:</strong> Enlaza el bloque con el anterior en la
+              cadena. Si el hash de un bloque previo cambia, toda la cadena posterior se invalida.
+            </li>
+            <li>
+              <strong>Merkle Root:</strong> Raíz del árbol de Merkle construido con todas las
+              transacciones del bloque. Permite verificar eficientemente la integridad de los datos.
+            </li>
+            <li><strong>Timestamp:</strong> Marca de tiempo UNIX del bloque.</li>
+            <li>
+              <strong>nBits (Target):</strong> Representación compacta del target de dificultad.
+              Define cuán difícil es encontrar un hash válido.
+            </li>
+            <li>
+              <strong>Nonce:</strong> Número que los mineros iteran para encontrar un hash que
+              cumpla con el target.
+            </li>
+          </ul>
+          <h3>Minería (Proof of Work)</h3>
+          <p>
+            El hash del bloque debe ser menor o igual al target definido por nBits. Los mineros
+            prueban distintos nonces hasta encontrar uno que cumpla esta condición:
+            <code
+              >SHA256d(version + prevHash + merkleRoot + timestamp + nBits + nonce) &lt;=
+              target</code
+            >.
+          </p>
+          <h3>Enlaces:</h3>
+          <ul>
+            <li>
+              <a
+                href="https://academy.bit2me.com/que-es-un-bloque-dentro-de-la-blockchain/"
+                target="_blank"
+                >Bit2Me Academy - ¿Qué es un bloque?</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://academy.bit2me.com/mineria-bitcoin-como-se-crea-un-bloque/"
+                target="_blank"
+                >Bit2Me Academy - Minería Bitcoin</a
+              >
+            </li>
+          </ul>
+        </div>
+      }
     </div>
 
     <div class="mb-3">
       <button class="btn btn-sm" style="background: #02264a; color: #fff" (click)="generateKey()">
         Generar par de claves ECDSA
       </button>
-      <div
-        *ngIf="keyPair"
-        class="mt-2 p-2"
-        style="background: #f5f5f5; font-family: monospace; font-size: 12px"
-      >
-        <div><strong>Clave privada:</strong> {{ keyPair.privateKey.substring(0, 32) }}...</div>
-        <div><strong>Clave pública:</strong> {{ keyPair.publicKey.substring(0, 32) }}...</div>
-        <div><strong>Dirección P2PKH:</strong> {{ keyPair.address }}</div>
-      </div>
+      @if (keyPair) {
+        <div class="mt-2 p-2" style="background: #f5f5f5; font-family: monospace; font-size: 12px">
+          <div><strong>Clave privada:</strong> {{ keyPair.privateKey.substring(0, 32) }}...</div>
+          <div><strong>Clave pública:</strong> {{ keyPair.publicKey.substring(0, 32) }}...</div>
+          <div><strong>Dirección P2PKH:</strong> {{ keyPair.address }}</div>
+        </div>
+      }
     </div>
 
     <block-component

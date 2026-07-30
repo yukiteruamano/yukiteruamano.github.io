@@ -1,6 +1,5 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import type { Peer } from '@models/block';
 import { BlockchainService } from '@services/blockchain.service';
 import { BlockComponent } from '@components/block/block.component';
@@ -9,7 +8,7 @@ import { PeerInfoComponent } from '@components/peer-info/peer-info.component';
 @Component({
   selector: 'app-tokens',
   standalone: true,
-  imports: [CommonModule, BlockComponent, PeerInfoComponent],
+  imports: [BlockComponent, PeerInfoComponent],
   template: `
     <h1>Tokens</h1>
 
@@ -19,43 +18,52 @@ import { PeerInfoComponent } from '@components/peer-info/peer-info.component';
           <a (click)="showExplanation = !showExplanation" style="cursor: pointer"> Explicación </a>
         </h4>
       </div>
-      <div class="panel-body" *ngIf="showExplanation">
-        <p>
-          Los tokens son objetos similares a las monedas pero carecen de curso legal. Son emitidos
-          por entidades privadas para usos determinados. Son una de las creaciones más esenciales de
-          la tecnología blockchain, abriendo puertas a aplicaciones que aún estamos por descubrir.
-        </p>
-        <h3>Modelo UTXO + Firmas ECDSA</h3>
-        <p>
-          En esta versión mejorada, las transacciones usan el modelo UTXO real: cada transacción
-          consume outputs existentes y crea nuevos, protegidos con firmas digitales ECDSA y
-          direcciones P2PKH reales.
-        </p>
-        <ul>
-          <li>
-            <a href="https://academy.bit2me.com/que-es-un-token" target="_blank"
-              >Bit2Me Academy - ¿Qué es un token?</a
-            >
-          </li>
-        </ul>
-      </div>
+      @if (showExplanation) {
+        <div class="panel-body">
+          <p>
+            Los tokens son objetos similares a las monedas pero carecen de curso legal. Son emitidos
+            por entidades privadas para usos determinados. Son una de las creaciones más esenciales
+            de la tecnología blockchain, abriendo puertas a aplicaciones que aún estamos por
+            descubrir.
+          </p>
+          <h3>Modelo UTXO + Firmas ECDSA</h3>
+          <p>
+            En esta versión mejorada, las transacciones usan el modelo UTXO real: cada transacción
+            consume outputs existentes y crea nuevos, protegidos con firmas digitales ECDSA y
+            direcciones P2PKH reales.
+          </p>
+          <ul>
+            <li>
+              <a href="https://academy.bit2me.com/que-es-un-token" target="_blank"
+                >Bit2Me Academy - ¿Qué es un token?</a
+              >
+            </li>
+          </ul>
+        </div>
+      }
     </div>
 
-    <div *ngFor="let peer of peers; let i = index">
-      <h3>
-        {{ peer.name }}
-        <peer-info *ngIf="blockchain.expertMode()" [peers]="peers" [peerIndex]="i"></peer-info>
-      </h3>
-      <div class="row row-horizon">
-        <div class="col-md-10" *ngFor="let b of peer.blocks; let j = index">
-          <block-component
-            [block]="b"
-            [showMineButton]="false"
-            (blockChanged)="onBlockChanged(i, j, $event)"
-          ></block-component>
+    @for (peer of peers; track peer.name; let i = $index) {
+      <div>
+        <h3>
+          {{ peer.name }}
+          @if (blockchain.expertMode()) {
+            <peer-info [peers]="peers" [peerIndex]="i"></peer-info>
+          }
+        </h3>
+        <div class="row row-horizon">
+          @for (b of peer.blocks; track b.hash; let j = $index) {
+            <div class="col-md-10">
+              <block-component
+                [block]="b"
+                [showMineButton]="false"
+                (blockChanged)="onBlockChanged(i, j, $event)"
+              ></block-component>
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
   `,
 })
 export class TokensComponent implements OnInit {

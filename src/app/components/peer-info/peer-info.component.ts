@@ -1,12 +1,11 @@
 import type { OnChanges } from '@angular/core';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import type { Peer } from '@models/block';
 
 @Component({
   selector: 'peer-info',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     (height: {{ blocks.length }} blocks, valid: {{ allValid }}, consensus: {{ consensus }} other
